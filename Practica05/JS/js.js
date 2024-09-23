@@ -18,5 +18,7 @@ function convertir(base)
 }
 function calcular()
 {
-
+    document.formulario.binario.value = convertir(2);
+    document.formulario.octal.value = convertir(8);
+    document.formulario.hexadecimal.value = convertir(16);
 }

@@ -8,11 +8,12 @@ function convertir(base)
     let num= Number( document.formulario.decimal.value);
     let numStr = "";
     while (num >= 1)
-    {
-        numStr = (num%base) + numStr;
-        console.log(numStr);
-        num = num/ base; 
-    }
+        if (Math.floor((num%base))> 9 && base == 16) 
+            numStr += String.fromCharCode(65 + (Math.floor((num%base))-10));      
+        else
+            numStr = Math.floor((num%base)) + numStr;
+        num = num/base; 
+    
     return numStr;
 }
 function calcular()

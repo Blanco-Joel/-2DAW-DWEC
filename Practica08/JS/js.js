@@ -26,11 +26,11 @@ function comprobaciónTotal()
 
     switch (arrayFecha[1]) {
         case 1,3,5,7,8,10,12:
-            
-            if (arrayFecha[0] > 31) {
+            console.log(correcto);
+
+            if (arrayFecha[0] < 31) {
                 correcto = false;
                 console.log(correcto);
-
             }
 
             break;

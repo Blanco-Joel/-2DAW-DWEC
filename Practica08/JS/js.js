@@ -7,8 +7,7 @@ function inicio()
 function crearArrayTexto()
 {
     let textoIntroducido = document.formulario.fecha.value;
-    textoIntroducido = textoIntroducido.replace("-","/");
-    textoIntroducido = textoIntroducido.replace("-","/");
+    textoIntroducido = textoIntroducido.replaceAll("-","/");
     textoIntroducido = textoIntroducido.split("/");
     return textoIntroducido;
 }
@@ -21,29 +20,30 @@ function comprobaciónTotal()
         correcto = false;
     }
 
-    if (((arrayFecha[2] % 4 == 0) && (arrayFecha[2] % 100 != 0 )) || (arrayFecha[2] % 400 == 0))
+    if (((parseInt(arrayFecha[2]) % 4 == 0) && (parseInt(arrayFecha[2]) % 100 != 0 )) || (parseInt(arrayFecha[2]) % 400 == 0))
         mes = 29;
 
-    switch (arrayFecha[1]) {
+    switch (parseInt(arrayFecha[1])) {
         case 1,3,5,7,8,10,12:
-            console.log(correcto);
-
-            if (arrayFecha[0] < 31) {
+            if (parseInt(arrayFecha[0]) > 31) {
                 correcto = false;
-                console.log(correcto);
             }
-
             break;
-        case 2: 
-            if (arrayFecha[0] > mes) {
+        case 2:
+ 
+            if (parseInt(arrayFecha[0]) > mes) {
                 correcto = false;
             }
             break;   
         case 4,6,9,11:
-            if (arrayFecha[0] > 30) {
+
+            if (parseInt(arrayFecha[0]) > 30) {
                 correcto = false;
             }
-        default:       
+            break;
+        default:    
+ 
+            correcto = false;
             break;
     }
 

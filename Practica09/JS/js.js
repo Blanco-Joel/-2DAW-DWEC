@@ -8,7 +8,7 @@ function letraInicio()
 {
     let correcto = false;
     let textoIntroducido = document.formulario.email.value.toLowerCase();
-    if (textoIntroducido[0].charCodeAt(0) >= 97 && textoIntroducido[0].charCodeAt(0) <= 122 ) 
+    if (comprobacionLetra(textoIntroducido[0])) 
         correcto = true;
     return correcto;
 }
@@ -19,27 +19,41 @@ function caracteres()
     let textoIntroducido = document.formulario.email.value.toLowerCase();
     let limite = textoIntroducido.search("@")-1;
     textoIntroducido = textoIntroducido.split("");
+
     for (let i = 1; i <= limite; i++)
-    {    
-            if(!(textoIntroducido[i].charCodeAt(0) >= 97 && textoIntroducido[i].charCodeAt(0) <= 122) && 
-               !(textoIntroducido[i].charCodeAt(0) >= 45 && textoIntroducido[i].charCodeAt(0) <= 57 ) ||
-                !(textoIntroducido[i].charCodeAt(0) != 47))
-               {
-                correcto = false;
-               }
-    }
-    
+        if(comprobacionTodo(textoIntroducido[i]))
+            correcto = false;
     return correcto;
 }
 function letraFinal()
 {
     let correcto = true;
     let textoIntroducido = document.formulario.email.value.toLowerCase();
-    let index =     textoIntroducido.search("@")-1;
-    if (!(textoIntroducido[index].charCodeAt(0) >= 97 && textoIntroducido[index].charCodeAt(0) <= 122) && 
-        !(textoIntroducido[index].charCodeAt(0) >= 48 && textoIntroducido[index].charCodeAt(0) <= 57 ))
+    if (comprobacionLetraNum(textoIntroducido[textoIntroducido.search("@")-1]))
         correcto = false;
     return correcto;
+}
+function letraDespuesArr()
+{
+    let correcto = false;
+    let textoIntroducido = document.formulario.email.value.toLowerCase();
+    if (comprobacionLetra(textoIntroducido[ textoIntroducido.search("@")+1])) 
+        correcto = true;
+    return correcto;
+}
+function comprobacionTodo(character) {
+    return !(character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) && 
+           !(character.charCodeAt(0) >= 45 && character.charCodeAt(0) <= 57 ) ||
+           !(character.charCodeAt(0) != 47);
+    
+}
+function comprobacionLetraNum(character) {
+    return !(character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) && 
+           !(character.charCodeAt(0) >= 48 && character.charCodeAt(0) <= 57 );
+}
+function comprobacionLetra(character) {
+    return (character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122 );
+    
 }
 function comprobar()
 {
@@ -53,12 +67,17 @@ function comprobar()
 
     if (!caracteres())
     {
-        mensajeTotal += "Carácteres inadecuados antes del @ \n";
+        mensajeTotal += "Carácteres inadecuados antes del @. \n";
         mensajeCorrecto = false;  
     }
     if (!letraFinal())
     {
-        mensajeTotal += "Carácter inadecuado justo antes del @ \n";
+        mensajeTotal += "Carácter inadecuado justo antes del @. \n";
+        mensajeCorrecto = false;  
+    }
+    if (!letraDespuesArr())
+    {
+        mensajeTotal += "Carácter inadecuado justo después del @. \n";
         mensajeCorrecto = false;  
     }
     if (!mensajeCorrecto) 

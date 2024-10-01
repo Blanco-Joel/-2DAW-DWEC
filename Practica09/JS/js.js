@@ -22,13 +22,13 @@ function caracteres()
     console.log(textoIntroducido);
     for (let i = 1; i <= limite; i++)
     {    
-            if(!(textoIntroducido[i].charCodeAt(0) >= 97 && textoIntroducido[i].charCodeAt(0) <= 122) || 
-               (textoIntroducido[i].charCodeAt(0) >= 45 && textoIntroducido[i].charCodeAt(0) <= 57 ))
+            if(!(textoIntroducido[i].charCodeAt(0) >= 97 && textoIntroducido[i].charCodeAt(0) <= 122) && 
+               !(textoIntroducido[i].charCodeAt(0) >= 45 && textoIntroducido[i].charCodeAt(0) <= 57 ))
                {
                 correcto = false;
                }
         console.log(textoIntroducido[i].charCodeAt(0));
-        console.log(correcto);
+        console.log(!(textoIntroducido[i].charCodeAt(0) >= 97 && textoIntroducido[i].charCodeAt(0) <= 122) && !(textoIntroducido[i].charCodeAt(0) >= 45 && textoIntroducido[i].charCodeAt(0) <= 57 ));
     }
     
     return correcto;

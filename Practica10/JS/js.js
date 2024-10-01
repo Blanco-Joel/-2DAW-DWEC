@@ -13,16 +13,18 @@ function letraInicio()
     return correcto;
 }
 function caracteres()
-{        
+{
     let correcto = true;
-
     let textoIntroducido = document.formulario.email.value.toLowerCase();
     let limite = textoIntroducido.search("@")-2;
     textoIntroducido = textoIntroducido.split("");
-    console.log(textoIntroducido);
     for (let i = 1; i < limite; i++)
-    {    
-        
+    {
+            if(!(textoIntroducido[i].charCodeAt(0) >= 97 && textoIntroducido[i].charCodeAt(0) <= 122) || !(textoIntroducido[i].charCodeAt(0) >= 48 && textoIntroducido[i].charCodeAt(0) >= 57 ) || !(textoIntroducido[i].charCodeAt(0) != 45) || !(textoIntroducido[i].charCodeAt(0) != 46))
+                correcto = false;
+
+        console.log(textoIntroducido[i].charCodeAt(0));
+        console.log(correcto);
     }
     
     return correcto;
@@ -39,6 +41,7 @@ function comprobar()
 
     if (!caracteres())
     {
+
         mensajeTotal += "Carácteres inadecuados antes del @ \n";
         mensajeCorrecto = false;  
     }

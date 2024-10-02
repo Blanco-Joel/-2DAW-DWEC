@@ -6,11 +6,23 @@ function inicio()
 
 function letraInicio()
 {
-    let correcto = false;
-    let textoIntroducido = document.formulario.email.value.toLowerCase();
-    if (textoIntroducido[0].charCodeAt(0) >= 97 && textoIntroducido[0].charCodeAt(0) <= 122 ) 
-        correcto = true;
-    return correcto;
+
+
+}
+
+function comrpobarUrl(cadena)
+{
+    let limite;
+    let limite2 = cadena.lastIndexOf(".");
+    let seguir = true;
+    let finalCadena = cadena.substring(limite2+1,cadena.length);
+    if(cadena.includes("http://"))
+        limite = 6;
+    else if (cadena.includes("https://"))
+        limite = 7;
+    else 
+        limite = 4;
+
 }
 function caracteres()
 {
@@ -33,17 +45,13 @@ function comprobar()
 {
     let mensajeTotal = "";
     let mensajeCorrecto = true;
-    if (!letraInicio())
+    let cadena = document.formulario.url.value;
+    if(cadena.substring(0,7) == "http://" || cadena.substring(0,8) == "https://" || cadena.substring(0,4) == "www.")
+        comrpobarUrl(cadena);
+    else
     {
-        mensajeTotal += "El email tiene que empezar con una letra.\n";
-        mensajeCorrecto = false;  
-    }
-
-    if (!caracteres())
-    {
-
-        mensajeTotal += "Carácteres inadecuados antes del @ \n";
-        mensajeCorrecto = false;  
+        mensajeCorrecto = false;
+        mensajeTotal = "La url no tiene un inicio adecuado. "
     }
     if (!mensajeCorrecto) 
     {

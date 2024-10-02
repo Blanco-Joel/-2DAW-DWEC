@@ -133,7 +133,6 @@ function comprobar()
         mensajeTotal += "Carácter inadecuado justo antes del '.' . \n";
         mensajeCorrecto = false;  
     }
-    letraDespuesPunto
     if (!letraDespuesPunto())
     {
         mensajeTotal += "Cantidad de caracteres inadecuada después del '.' . \n";

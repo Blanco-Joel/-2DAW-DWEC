@@ -70,11 +70,18 @@ function letraDespuesPunto()
 {
     let correcto = true;
     let textoIntroducido = document.formulario.email.value.toLowerCase();
-    if(textoIntroducido.length-textoIntroducido.lastIndexOf(".")-1 > 4)
-        correcto = false;
-    else if (comprobacionLetra(textoIntroducido[0])) 
-        correcto = false;
-
+    if( !(2 <= (textoIntroducido.length-textoIntroducido.lastIndexOf(".")-1) &&
+          4 >= (textoIntroducido.length-textoIntroducido.lastIndexOf(".")-1)))
+          correcto = false;
+    else
+    {
+        textoIntroducido = textoIntroducido.split("");
+        for (let i = textoIntroducido.lastIndexOf(".")+1; i < textoIntroducido.length; i++) 
+            if (!comprobacionLetra(textoIntroducido[i])) 
+                correcto = false;
+            
+        
+    }
     return correcto;
 }
 

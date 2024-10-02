@@ -41,6 +41,17 @@ function letraDespuesArr()
         correcto = true;
     return correcto;
 }
+function caracteresDespesArr()
+{
+    let correcto = false;
+    let textoIntroducido = document.formulario.email.value.toLowerCase();
+    textoIntroducido = textoIntroducido.split("");
+
+    for (let i = textoIntroducido.search("@")+2; i <= textoIntroducido.indexOf(".",textoIntroducido.search("@"))-2; i++)
+        if(comprobacionTodo(textoIntroducido[i]))
+            correcto = false;
+    return correcto;
+}
 function comprobacionTodo(character) {
     return !(character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) && 
            !(character.charCodeAt(0) >= 45 && character.charCodeAt(0) <= 57 ) ||
@@ -78,6 +89,11 @@ function comprobar()
     if (!letraDespuesArr())
     {
         mensajeTotal += "Carácter inadecuado justo después del @. \n";
+        mensajeCorrecto = false;  
+    }
+    if (!caracteresDespesArr())
+    {
+        mensajeTotal += "Carácteres inadecuados después del @. \n";
         mensajeCorrecto = false;  
     }
     if (!mensajeCorrecto) 

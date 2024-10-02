@@ -28,15 +28,24 @@ function caracteres()
     let textoIntroducido = document.formulario.nombre.value;
     textoIntroducido = textoIntroducido.toLowerCase().split("");
     textoIntroducido.forEach(letra => {
-        if (letra.charCodeAt(0) >= 97 && letra.charCodeAt(0) <= 122 && letra.charCodeAt(0) != 170 && letra.charCodeAt(0) != 186 && letra.charCodeAt(0) != 45 && letra.charCodeAt(0) != 32 )
+        if (comprobacionTodo(letra))
             correcto = true;
- 
+        console.log(letra +correcto);
+
     });
+
     return correcto;
+}
+function comprobacionTodo(character) {
+    return !(character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) && 
+           !(character.charCodeAt(0) == 32) &&
+           !(character.charCodeAt(0) == 45) &&
+           !(character.charCodeAt(0) == 170) &&
+           !(character.charCodeAt(0) == 186);
+    
 }
 function comprobar()
 {
-    console.log(" ".charCodeAt(0));
     let mensajeTotal = "";
     let mensajeCorrecto = true;
     if (!contarLetrasTotales())
@@ -50,7 +59,7 @@ function comprobar()
         mensajeCorrecto = false;  
     }
 
-    if (!caracteres())
+    if (caracteres())
     {
 
         mensajeTotal += "Carácteres inadecuados.\n";

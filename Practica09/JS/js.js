@@ -12,6 +12,7 @@ function letraInicio()
         correcto = true;
     return correcto;
 }
+
 function caracteres()
 {        
     let correcto = true;
@@ -23,8 +24,9 @@ function caracteres()
     for (let i = 1; i <= limite; i++)
         if(comprobacionTodo(textoIntroducido[i]))
             correcto = false;
-    return correcto;
+        return correcto;
 }
+
 function letraFinal()
 {
     let correcto = true;
@@ -33,6 +35,7 @@ function letraFinal()
         correcto = false;
     return correcto;
 }
+
 function letraDespuesArr()
 {
     let correcto = false;
@@ -41,16 +44,45 @@ function letraDespuesArr()
         correcto = true;
     return correcto;
 }
+
 function caracteresDespesArr()
 {
-    let correcto = false;
+    let correcto = true;
     let textoIntroducido = document.formulario.email.value.toLowerCase();
     textoIntroducido = textoIntroducido.split("");
 
-    for (let i = textoIntroducido.search("@")+2; i <= textoIntroducido.indexOf(".",textoIntroducido.search("@"))-2; i++)
-        if(comprobacionTodo(textoIntroducido[i]))
+    for (let i = (textoIntroducido.indexOf("@")+2); i <= textoIntroducido.lastIndexOf(".")-1; i++)
+        if(comprobacionLetraNumGuion(textoIntroducido[i]))
             correcto = false;
     return correcto;
+}
+
+function letraAntesPunto()
+{
+    let correcto = true;
+    let textoIntroducido = document.formulario.email.value.toLowerCase();
+    if (comprobacionLetraNum(textoIntroducido[textoIntroducido.lastIndexOf(".")-1]))
+        correcto = false;
+    return correcto;
+}
+
+function letraDespuesPunto()
+{
+    let correcto = true;
+    let textoIntroducido = document.formulario.email.value.toLowerCase();
+    if(textoIntroducido.length-textoIntroducido.lastIndexOf(".")-1 > 4)
+        correcto = false;
+    else if (comprobacionLetra(textoIntroducido[0])) 
+        correcto = false;
+
+    return correcto;
+}
+
+function comprobacionLetraNumGuion(character) {
+    return !(character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) && 
+           !(character.charCodeAt(0) >= 48 && character.charCodeAt(0) <= 57 ) &&
+           !(character.charCodeAt(0) == 45);
+    
 }
 function comprobacionTodo(character) {
     return !(character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) && 
@@ -94,6 +126,17 @@ function comprobar()
     if (!caracteresDespesArr())
     {
         mensajeTotal += "Carácteres inadecuados después del @. \n";
+        mensajeCorrecto = false;  
+    }
+    if (!letraAntesPunto())
+    {
+        mensajeTotal += "Carácter inadecuado justo antes del '.' . \n";
+        mensajeCorrecto = false;  
+    }
+    letraDespuesPunto
+    if (!letraDespuesPunto())
+    {
+        mensajeTotal += "Cantidad de caracteres inadecuada después del '.' . \n";
         mensajeCorrecto = false;  
     }
     if (!mensajeCorrecto) 

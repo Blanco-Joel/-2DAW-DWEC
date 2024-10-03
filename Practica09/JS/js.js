@@ -85,6 +85,9 @@ function letraDespuesPunto()
     return correcto;
 }
 
+/*******************************************************************************************************/
+
+
 function comprobacionLetraNumGuion(character) {
     return !(character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) && 
            !(character.charCodeAt(0) >= 48 && character.charCodeAt(0) <= 57 ) &&
@@ -105,6 +108,7 @@ function comprobacionLetra(character) {
     return (character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122 );
     
 }
+
 function comprobar()
 {
     let mensajeTotal = "";

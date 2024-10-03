@@ -30,7 +30,6 @@ function caracteres()
     textoIntroducido.forEach(letra => {
         if (comprobacionTodo(letra))
             correcto = true;
-        console.log(letra +correcto);
 
     });
 

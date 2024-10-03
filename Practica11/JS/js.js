@@ -18,13 +18,14 @@ function inicioLetra(textoIntroducido)
     let correcto = false;
     if (!comprobacionLetra(textoIntroducido[0]))
         correcto = true;
+    
     return correcto;
 }
 
 function caracteres(textoIntroducido)
 {
     let correcto = false;
-    textoIntroducido = textoIntroducido.substring(2,textoIntroducido.length);
+    textoIntroducido = textoIntroducido.substring(1,textoIntroducido.length-2);
     textoIntroducido = textoIntroducido.toLowerCase().split("");
     textoIntroducido.forEach(letra => {
         if (comprobacionTodo(letra))
@@ -41,7 +42,6 @@ function finalLetra(textoIntroducido)
     textoIntroducido.forEach(letra => {
         if (!comprobacionLetra(letra))
             correcto = true;
-        console.log(textoIntroducido);
     });
 
     return correcto;
@@ -62,13 +62,13 @@ function comprobar()
 {
     let mensajeTotal = "";
     let mensajeCorrecto = true;
-    let textoIntroducido = document.formulario.localidad.value;
+    let textoIntroducido = document.formulario.localidad.value.toLowerCase();
     if (!contarLetrasTotales(textoIntroducido))
     {
         mensajeTotal += "Longitud inadecuada.\n" ;
         mensajeCorrecto = false;  
     }
-    if (!inicioLetra(textoIntroducido))
+    if (inicioLetra(textoIntroducido))
     {
         mensajeTotal += "El localidad tiene que empezar con una letra.\n";
         mensajeCorrecto = false;  

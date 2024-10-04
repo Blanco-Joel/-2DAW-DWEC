@@ -29,6 +29,12 @@ function inicioNum(textoIntroducido)
     for (let i = 0; i < inicio; i++) 
         if (isNaN(textoIntroducido[i]))     
             correcto = true;
+
+    console.log((textoIntroducido[inicio,2].toUpperCase()));
+    if (!(["AN", "ES", "DL", "US"].includes(textoIntroducido[inicio].toUpperCase())))
+    {
+        document.formulario.mensaje.value += "El código que sigue los primeros números ha de ser ['AN', 'ES', 'DL', 'US']. \n"
+    }
     return correcto;
 }
 

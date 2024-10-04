@@ -4,45 +4,6 @@ function inicio()
     document.formulario.comprobar.onclick = comprobar;
 }
 
-function contarLetrasTotales()
-{
-    let texto = document.formulario.direccion.value.length;
-    let correcto = false;
-    if (texto >= 8 && texto <= 42 )
-        correcto = true;
-    return correcto;
-}
-
-function inicioLetra(textoIntroducido)
-{
-    let correcto = false;
-    if (!comprobacionLetra(textoIntroducido[0]))
-        correcto = true;
-    
-    return correcto;
-}
-
-function caracteres(textoIntroducido)
-{
-    let correcto = false;
-    textoIntroducido = textoIntroducido.split("");
-    textoIntroducido.forEach(letra => {
-        if (comprobacionTodo(letra))
-            correcto = true;
-    });
-
-
-    return correcto;
-}
-function finalLetraNum(textoIntroducido)
-{
-    let correcto = false;
-
-    if (comprobacionLetraNum(textoIntroducido[textoIntroducido.length-1]))
-        correcto = true;
-
-    return correcto;
-}
 
 /************************************************************************************/
 
@@ -51,11 +12,8 @@ function comprobacionLetra(character) {
 }
 
 function comprobacionTodo(character) {
-    return !(character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) && 
-           !(character.charCodeAt(0) >= 47 && character.charCodeAt(0) <= 57 ) &&
-           !(character.charCodeAt(0) == 45) &&
-           !(character.charCodeAt(0) == 170) &&
-           !(character.charCodeAt(0) == 186);
+    return !(character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) &&    
+           !(character.charCodeAt(0) == 32);
     
 }
 function comprobacionLetraNum(character) {

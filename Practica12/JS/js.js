@@ -26,6 +26,7 @@ function caracteres(textoIntroducido)
 {
     let correcto = false;
     textoIntroducido = textoIntroducido.split("");
+    textoIntroducido = textoIntroducido.slice(0,-1);
     textoIntroducido.forEach(letra => {
         if (comprobacionTodo(letra))
             correcto = true;

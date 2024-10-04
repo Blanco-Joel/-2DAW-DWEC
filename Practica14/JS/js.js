@@ -29,7 +29,6 @@ function inicioNum(textoIntroducido)
     for (let i = 0; i < inicio; i++) 
         if (isNaN(textoIntroducido[i]))     
             correcto = true;
-
     return correcto;
 }
 

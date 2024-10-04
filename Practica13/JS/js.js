@@ -4,47 +4,56 @@ function inicio()
     document.formulario.comprobar.onclick = comprobar;
 }
 
+function caracteres(textoIntroducido)
+{
+    let correcto = false;
+    textoIntroducido = textoIntroducido.split("");
+    textoIntroducido.forEach(letra => {
+        if (comprobacionTodo(letra))
+            correcto = true;
+    });
+    return correcto;
+}
+
+function ComprobarPalindromo(textoIntroducido) 
+{
+    let correcto = false;
+    let vueltaCadena = [];
+    textoIntroducido = textoIntroducido.replaceAll(" ","");
+    textoIntroducido = textoIntroducido.split("");
+    textoIntroducido.forEach(letra => {
+        vueltaCadena.unshift(letra);
+    });
+    for (let i = 0; i < textoIntroducido.length; i++) 
+        if (vueltaCadena[i] != textoIntroducido[i]) 
+            correcto = true;
+        
+    
+    return correcto;
+}
 
 /************************************************************************************/
-
-function comprobacionLetra(character) {
-    return (character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122 );
-}
 
 function comprobacionTodo(character) {
     return !(character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) &&    
            !(character.charCodeAt(0) == 32);
     
 }
-function comprobacionLetraNum(character) {
-    return !(character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) && 
-           !(character.charCodeAt(0) >= 48 && character.charCodeAt(0) <= 57 );
-}
+
 function comprobar()
 {
     let mensajeTotal = "";
     let mensajeCorrecto = true;
-    let textoIntroducido = document.formulario.direccion.value.toLowerCase();
-    if (!contarLetrasTotales(textoIntroducido))
-    {
-        mensajeTotal += "Longitud inadecuada.\n" ;
-        mensajeCorrecto = false;  
-    }
-    if (inicioLetra(textoIntroducido))
-    {
-        mensajeTotal += "El direccion tiene que empezar con una letra.\n";
-        mensajeCorrecto = false;  
-    }
+    let textoIntroducido = document.formulario.palindromo.value.toLowerCase();
 
     if (caracteres(textoIntroducido))
     {
-
         mensajeTotal += "Carácteres inadecuados.\n";
         mensajeCorrecto = false;  
     }
-    if (finalLetraNum(textoIntroducido))
+    if (ComprobarPalindromo(textoIntroducido))
     {
-        mensajeTotal += "Final de la direccion inadecuado.\n";
+        mensajeTotal += "No es palíndromo.\n";
         mensajeCorrecto = false;  
     }
     if (!mensajeCorrecto) 

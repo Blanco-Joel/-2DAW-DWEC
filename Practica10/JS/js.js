@@ -1,127 +1,123 @@
 window.onload = inicio;
-
-function inicio()
+function inicio() 
 {
-    document.formulario.boton.onclick = comprobar;
+    document.formulario.comprobar.onclick = comprobar;
 }
+
+function comrpobarUrl(textoIntroducido,mensajeTotal)
+{
+    let inicio;
+    if(textoIntroducido.includes("http://"))
+        inicio = 6;
+    else if (textoIntroducido.includes("https://"))
+        inicio = 7;
+    else 
+        inicio = 4;
+    
+    if (!letraInicio(inicio,textoIntroducido))
+    {
+        mensajeTotal += "Carácteres inadecuados justo después del inicio de la URL.\n";
+        mensajeCorrecto = false;  
+    }
+    if (!caracteresDespuesInicio(inicio,textoIntroducido))
+    {
+        mensajeTotal += "Carácteres inadecuados después del inicio de la URL. \n";
+        mensajeCorrecto = false;  
+    }
+    if (!letraAntesPunto(textoIntroducido))
+    {
+        mensajeTotal += "Carácter inadecuado justo antes del '.' . \n";
+        mensajeCorrecto = false;  
+    }
+    if (!letraDespuesPunto(textoIntroducido))
+    {
+        mensajeTotal += "Cantidad de caracteres inadecuada después del '.' . \n";
+        mensajeCorrecto = false;  
+    }
+
+    return mensajeTotal;
+}
+function letraInicio(inicio,textoIntroducido)
+{
+    let correcto = false;
+    if (comprobacionLetra(textoIntroducido[inicio])) 
+        correcto = true;
+    return correcto;
+}
+
+function caracteresDespuesInicio(inicio,textoIntroducido)
+{
+    let correcto = true;
+    textoIntroducido = textoIntroducido.split("");
+
+    for (let i = inicio; i < textoIntroducido.lastIndexOf(".")-1; i++)
+        if(comprobacionLetraNumGuion(textoIntroducido[i]))
+            correcto = false;
+    return correcto;
+}
+
+function letraAntesPunto(textoIntroducido)
+{
+    let correcto = true;
+    if (comprobacionLetraNum(textoIntroducido[textoIntroducido.lastIndexOf(".")-1]))
+        correcto = false;
+    return correcto;
+}
+
+function letraDespuesPunto(textoIntroducido)
+{
+    let correcto = true;
+    if( !(2 <= (textoIntroducido.length-textoIntroducido.lastIndexOf(".")-1) &&
+          4 >= (textoIntroducido.length-textoIntroducido.lastIndexOf(".")-1)))
+          correcto = false;
+    else
+    {
+        textoIntroducido = textoIntroducido.split("");
+        for (let i = textoIntroducido.lastIndexOf(".")+1; i < textoIntroducido.length; i++) 
+            if (!comprobacionLetra(textoIntroducido[i])) 
+                correcto = false;
+            
+        
+    }
+    return correcto;
+}
+
+/*******************************************************************************************************/
+
+function comprobacionLetraNumGuion(character) {
+    return !(character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) && 
+           !(character.charCodeAt(0) >= 48 && character.charCodeAt(0) <= 57 ) &&
+           !(character.charCodeAt(0) == 45);
+    
+}
+
+function comprobacionLetraNum(character) {
+    return !(character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) && 
+           !(character.charCodeAt(0) >= 48 && character.charCodeAt(0) <= 57 );
+}
+
+function comprobacionLetra(character) {
+    return (character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122 );
+}
+
 
 function comprobar()
 {
-    let cadena = document.formulario.url.value;
-    if(cadena.substring(0,7) == "http://" || cadena.substring(0,8) == "https://" || cadena.substring(0,4) == "www.")
-        comrpobarUrl(cadena);
-    else
-        mensaje();
-}
-
-function comrpobarUrl(cadena)
-{
-    let limite;
-    let limite2 = cadena.lastIndexOf(".");
-    let seguir = true;
-    let finalCadena = cadena.substring(limite2+1,cadena.length);
-    if(cadena.includes("http://"))
-        limite = 6;
-    else if (cadena.includes("https://"))
-        limite = 7;
-    else 
-        limite = 4;
-
-    if(!comp_letra(cadena.charAt(limite+1)) && !comp_digito(cadena.charAt(limite+1)))
-    {
-        console.log("1");
-        mensaje();
-        seguir = false;
-    }
-
-
-    for (let i = limite+2; i < limite2-2 ; i++)
-    {
-        if(!comp_letra(cadena.charAt(i)) && !comp_digito(cadena.charAt(i)) && !comp_especiales(cadena.charAt(i)))
-        {
-            console.log("2");
-            mensaje();
-            seguir = false;
-        }
-    }
-
-    if(!comp_letra(cadena.charAt(limite2-1)) && !comp_digito(cadena.charAt(limite2-1)))
-    {
-        console.log("3");
-        mensaje();
-        seguir = false;
-    }
-
-    if(finalCadena.length < 2 || finalCadena > 4)
-    {
-        console.log("4");
-        mensaje();
-        seguir = false;
-    }
-
-    for (let i = limite2+1; i < cadena.length ; i++)
-    {
-        
-        if(!comp_letra(cadena.charAt(i)))
-        {
-            console.log("5");
-            mensaje();
-            seguir = false;
-        }
-    }
-
-    if(seguir)
-        document.formulario.mensaje.value = "URL Correcta";
-}
-
-function comp_letra(cadena){
-    let seguir=false;
-    for (let i = 65; i <= 90; i++)
-    {
-        if(cadena == String.fromCharCode(i))
-            seguir = true;
-    }
-    for (let i = 97; i <= 122; i++)
-    {
-        if(cadena == String.fromCharCode(i))
-            seguir = true;
-    }
-    return seguir;
-}
-
-function comp_digito(cadena){
-    let seguir=false;
-    for (let i = 0; i <= 9; i++)
-    {
-        if(cadena == (i).toString)
-            seguir = true;
-    }
-    return seguir;
-}
-
-function comp_especiales(cadena){
-    let seguir=false;
-    if(cadena == String.fromCharCode(45))
-        seguir = true;
-    return seguir;
-}
-
-function mensaje()
-{
-    document.formulario.mensaje.value = "URL Incorrecta";
-}function comprobar()
-{
     let mensajeTotal = "";
     let mensajeCorrecto = true;
-    let cadena = document.formulario.url.value;
-    if(cadena.substring(0,7) == "http://" || cadena.substring(0,8) == "https://" || cadena.substring(0,4) == "www.")
-        comrpobarUrl(cadena);
+    let textoIntroducido = document.formulario.url.value;
+    if((textoIntroducido.substring(0,7) == "http://") || 
+        (textoIntroducido.substring(0,8) == "https://")||
+        (textoIntroducido.substring(0,4) == "www."))
+
+        mensajeTotal = comrpobarUrl(textoIntroducido,mensajeTotal);
     else
     {
         mensajeCorrecto = false;
-        mensajeTotal = "La url no tiene un inicio adecuado. "
+        mensajeTotal += "La url no tiene un inicio adecuado. \n" ;
     }
-    if (!mensajeCorrecto) 
+
+    if (!mensajeCorrecto || mensajeTotal.length > 0) 
     {
         document.formulario.mensaje.value = mensajeTotal;
     }

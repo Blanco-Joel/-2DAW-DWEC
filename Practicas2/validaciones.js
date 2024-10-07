@@ -76,7 +76,7 @@ function esCif(cadena)
         }
         if (valido) {
             laCadena = parseInt(laCadena.substring(indice,indice))
-        }
+        }   
 } 
 
 

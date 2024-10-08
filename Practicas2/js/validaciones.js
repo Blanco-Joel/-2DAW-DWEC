@@ -8,7 +8,7 @@ function inicio()
 
 function comprobar(){
     let cadena = document.formulario.nif.value;
-    document.formulario.mensaje.value = esNif(cadena);
+    document.formulario.mensaje.value = esCif(cadena);
     //esCif(cadena);
 }
 /********************************************************************************/
@@ -85,7 +85,7 @@ function esCif(cadena)
                         "d","e","f","g",
                         "h","i"];
     if (laCadena.length != 9) /*COMPRUEBA SI TIENE LOS 9 CARACTERES DE UN NIF*/
-        codigoCorrecto=0;
+        codigoCorrecto=2;
     else
     {
         if (laCadena.at(indice) > "z" || laCadena.at(indice) < "a") 
@@ -115,8 +115,12 @@ function esCif(cadena)
             }
             sumaTotal%= 10;
             sumaTotal= 10-sumaTotal;
-        }   
-    } 
+        }else
+        {
+            codigoCorrecto=2;
 
+        }
+    } 
+    return codigoCorrecto;
 
 }

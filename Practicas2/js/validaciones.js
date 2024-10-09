@@ -133,9 +133,21 @@ function esCif(cadena)
 
 function NIFCIF(cadena) 
 {
-    let codigo = esNif(cadena).toString() + esCif(cadena).toString();
-    console.log(codigo);
-    return codigo    
-    
-    /*comprobar en base a la primera letra*/
+    let laCadena = cadena.trim().toLowerCase();
+    let codigo;
+    let letraNif = ["x", "z", "y", "l", "k", "m"];
+    let letraCif = ["a", "h", "j", "u", "v", "p", "q", "r", "s", "w"];
+
+    if (laCadena.length > 9) /*COMPRUEBA SI TIENE LOS 9 CARACTERES*/
+        codigo=0;
+    else
+    {
+        if (letraCif.includes(laCadena.at(0)))
+            codigo = "C" + esCif(cadena).toString();
+        if (letraNif.includes(laCadena.at(0)))
+            codigo = "N" + esNif(cadena).toString();
+        if (laCadena.at(0) > 0 && laCadena.at(0) < 9)
+            codigo = "N" + esCif(cadena).toString();
+    }
+    return codigo
 }

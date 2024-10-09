@@ -9,7 +9,6 @@ function inicio()
 function comprobar(){
     let cadena = document.formulario.dato.value;
     document.formulario.mensaje.value = NIFCIF(cadena);
-    //esCif(cadena);
 }
 /********************************************************************************/
 
@@ -34,6 +33,7 @@ function esNif(cadena)
         codigoCorrecto = 0;
     else
     {
+        console.log((!caraPrimPos.includes(laCadena.at(indice))));
         if (!caraPrimPos.includes(laCadena.at(indice))) {
             valido = false;
         }else
@@ -57,10 +57,12 @@ function esNif(cadena)
                 valido=false;
             indice+=1;
         }
+        
         if (valido) {
 
             let numerosCadena = parseInt(laCadena.substring(indice2,laCadena.length-1));
             resultado = numerosCadena%23;
+            
             if (laCadena.at(indice) != caraControl[resultado]) /*COMPROBACIÓN DE CARÁCTER DE CONTROL*/
                 codigoCorrecto = 2;
             else
@@ -139,15 +141,15 @@ function NIFCIF(cadena)
     let letraCif = ["a", "h", "j", "u", "v", "p", "q", "r", "s", "w"];
 
     if (laCadena.length > 9) /*COMPRUEBA SI TIENE LOS 9 CARACTERES*/
-        codigo=0;
+        codigo="0";
     else
     {
         if (letraCif.includes(laCadena.at(0)))
             codigo = "C" + esCif(cadena).toString();
         if (letraNif.includes(laCadena.at(0)))
             codigo = "N" + esNif(cadena).toString();
-        if (laCadena.at(0) > 0 && laCadena.at(0) < 9)
-            codigo = "N" + esCif(cadena).toString();
+        if (laCadena.at(0) >= 0 && laCadena.at(0) <= 9)
+            codigo = "N" + esNif(cadena).toString();
     }
-    return codigo
+    return codigo;
 }

@@ -7,8 +7,8 @@ function inicio()
 }
 
 function comprobar(){
-    let cadena = document.formulario.nif.value;
-    document.formulario.mensaje.value = esCif(cadena);
+    let cadena = document.formulario.dato.value;
+    document.formulario.mensaje.value = NIFCIF(cadena);
     //esCif(cadena);
 }
 /********************************************************************************/
@@ -78,22 +78,19 @@ function esCif(cadena)
     let letra = true, valido = true ;
     let letrasMas = "pqrsw";
     let codigoCorrecto = 1;
-    let numerosCadena = 0, sumaTotal = 0, numAux = 0, numAux2 = 0;
+    let numerosCadena = 0, sumaTotal = 0, numAux = 0;
     let indice = 0 ,  resultado = 0;
     let laCadena = cadena.trim().toLowerCase();
     let caraControl =  ["j","a","b","c",
                         "d","e","f","g",
                         "h","i"];
     if (laCadena.length != 9) /*COMPRUEBA SI TIENE LOS 9 CARACTERES DE UN NIF*/
-        codigoCorrecto=2;
+        codigoCorrecto=0;
     else
     {
         if (laCadena.at(indice) > "z" || laCadena.at(indice) < "a") 
             valido = false
 
-        /*COMPROBACIÓN PRIMERA LETRA*/
-        if (!letrasMas.includes(laCadena.at(indice)) )
-            letra=false;
         indice+=1;
         while (valido && indice < laCadena.length-1){ /*COMPROBACIÓN DE NÚMEROS*/
             if (laCadena.at(indice) < "0" || laCadena.at(indice) > "9")
@@ -101,26 +98,44 @@ function esCif(cadena)
             indice+=1;
         }
         if (valido) {
-            numerosCadena = parseInt(laCadena.substr(indice,7));
+            
+            numerosCadena = (laCadena.substr(1,7));
             for (let i = 0; i < 7; i++) {
                 numAux = 0;
-                numAux2 = 0;
-                if (i != 2) 
-                    sumaTotal += numerosCadena[i];
+                if (i%2 != 0) 
+                    sumaTotal += parseInt(numerosCadena[i]);
                 else{                
-                    numAux = numerosCadena[i]*2;
-                    numAux2 = numAux.split("");
-                    sumaTotal += numAux2[0] + numAux2[1];
+                    numAux = parseInt(numerosCadena[i])*2;
+
+                    if (numAux > 9 )
+                        numAux = numAux+1-10;
+                    sumaTotal += numAux;
                 }
             }
+            
             sumaTotal%= 10;
             sumaTotal= 10-sumaTotal;
-        }else
-        {
+            /*COMPROBACIÓN PRIMERA LETRA*/
+            if (letrasMas.includes(laCadena.at(0)) ){
+                if (!(caraControl[sumaTotal] == laCadena.at(indice))) 
+                    codigoCorrecto = 2;       
+            }else{
+                if (!(sumaTotal == laCadena.at(indice))) 
+                    codigoCorrecto = 2;
+            }
+        }else{
             codigoCorrecto=2;
-
         }
     } 
     return codigoCorrecto;
 
+}
+
+function NIFCIF(cadena) 
+{
+    let codigo = esNif(cadena).toString() + esCif(cadena).toString();
+    console.log(codigo);
+    return codigo    
+    
+    /*comprobar en base a la primera letra*/
 }

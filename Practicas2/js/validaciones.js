@@ -11,6 +11,8 @@ function comprobar(){
     document.formulario.mensaje.value = NIFCIF(cadena);
     let codigo = document.formulario.codigo.value;
     document.formulario.mensajeCodigo.value = separarCodigo(codigo);
+    let codCuenta = document.formulario.iban.value;
+    document.formulario.mensajeIban.value = calculoIBANEspanya(codCuenta);
 }
 /********************************************************************************/
 
@@ -155,8 +157,15 @@ function NIFCIF(cadena)
 
 function separarCodigo(codigo) 
 {
-    codigo = codigo.split("-");
-    return codigosControl(codigo[0],codigo[1],codigo[2]);
+    let valido = "";
+    if (codigo.length == 18) {
+        codigo1 = codigo.substr(0,4);
+        codigo2 = codigo.substr(4,4);
+        codigo3 = codigo.substr(8,10);
+        valido = codigosControl(codigo1,codigo2,codigo3);
+    }else
+        valido = "El código introducido no es válido.";
+    return valido;
 }
 function codigosControl(codBanco,codSucursal,codCuenta)
 {
@@ -182,5 +191,26 @@ function codigosControl(codBanco,codSucursal,codCuenta)
     n3 = n3 == 10 ? 0 : n3 == 11 ? 1 : n3;
 
     return n1.toString()+n3.toString();
+}
+function calculoIBANEspanya(codCuenta) 
+{
+    let control;
+    let codCuentaNumerico;
+    let iban = "";
+    if (codCuenta.length != 20 || isNaN(codCuenta)) {
+        iban = "El código introducido no es válido.";
+    }else
+    {
+        codCuentaNumerico = codCuenta.toString() + "142800";
+        console.log (codCuenta)
 
+        control = Math.abs(98 - (parseInt(codCuentaNumerico,10)%97));
+        console.log ( control)
+
+        control = (control < 10) ? ("0" + control.toString()) : control.toString() ; 
+        console.log ( control)
+        iban = "ES" + control + codCuenta;
+    }    
+
+    return iban; 
 }

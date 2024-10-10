@@ -33,10 +33,7 @@ function esNif(cadena)
         codigoCorrecto = 0;
     else
     {
-        console.log((!caraPrimPos.includes(laCadena.at(indice))));
-        if (!caraPrimPos.includes(laCadena.at(indice))) {
-            valido = false;
-        }else
+        if (caraPrimPos.includes(laCadena.at(indice))) 
         {
             switch (laCadena.at(indice)) /*INICIO PARA LAS LETRAS "Z" E "Y"  */
             {
@@ -118,7 +115,7 @@ function esCif(cadena)
             sumaTotal%= 10;
             sumaTotal= 10-sumaTotal;
             /*COMPROBACIÓN PRIMERA LETRA*/
-            if (letrasMas.includes(laCadena.at(0)) ){
+            if (laCadena.at(indice) >= "a" && laCadena.at(indice) <= "z"){
                 if (!(caraControl[sumaTotal] == laCadena.at(indice))) 
                     codigoCorrecto = 2;       
             }else{
@@ -137,8 +134,8 @@ function NIFCIF(cadena)
 {
     let laCadena = cadena.trim().toLowerCase();
     let codigo;
-    let letraNif = ["x", "z", "y", "l", "k", "m"];
-    let letraCif = ["a", "h", "j", "u", "v", "p", "q", "r", "s", "w"];
+    let letraNif = ["x", "z", "y", "l", "k", "m"]; 
+    let letraCif = ["a","b","c","d","e","f","g", "h", "j", "n", "p","q","r","s","u","v","w"];
 
     if (laCadena.length > 9) /*COMPRUEBA SI TIENE LOS 9 CARACTERES*/
         codigo="0";

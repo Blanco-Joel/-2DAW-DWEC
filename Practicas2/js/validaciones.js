@@ -204,7 +204,7 @@ function calculoIBANEspanya(codCuenta)
         codCuentaNumerico = codCuenta.toString() + "142800";
         console.log (codCuenta)
 
-        control = Math.abs(98 - (parseInt(codCuentaNumerico,10)%97));
+        control = 98n - (BigInt(codCuentaNumerico) % 97n);
         console.log ( control)
 
         control = (control < 10) ? ("0" + control.toString()) : control.toString() ; 

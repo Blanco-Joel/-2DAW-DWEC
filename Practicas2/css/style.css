@@ -1,0 +1,10 @@
+body
+{
+    background-color: rgb(0, 0, 255);
+    color: white;
+    
+}
+body label,body input
+{
+    margin: 0.2vw;
+}

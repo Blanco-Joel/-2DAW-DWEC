@@ -13,6 +13,7 @@ function comprobar(){
     document.formulario.mensajeCodigo.value = separarCodigo(codigo);
     let codCuenta = document.formulario.iban.value;
     document.formulario.mensajeIban.value = calculoIBANEspanya(codCuenta);
+    comprobarIban("ES53012446037305887145372");
 }
 /********************************************************************************/
 
@@ -22,7 +23,7 @@ function esNif(cadena)
     let codigoCorrecto = 1;
     let indice = 0 ,indice2 = 0,  resultado = 0;
     let laCadena = cadena.trim().toLowerCase();
-    let caraPrimPos = ["x","z","y","l","k","m"];
+    let caraPrimPos = ["x", "z", "y", "l", "k", "m"];
     let caraControl  = ["t", "r", "w", "a",
                         "g", "m", "y", "f",
                         "p", "d", "x", "b",
@@ -42,10 +43,10 @@ function esNif(cadena)
             switch (laCadena.at(indice)) /*INICIO PARA LAS LETRAS "Z" E "Y"  */
             {
                 case "y":
-                    laCadena =laCadena.replace("y","1");
+                    laCadena =laCadena.replace("y", "1");
                 break;
                 case "z":
-                    laCadena = laCadena.replace("2","z");
+                    laCadena = laCadena.replace("2", "z");
                 break;
                 default:
                     indice = indice2 +=1;
@@ -84,9 +85,9 @@ function esCif(cadena)
     let numerosCadena = 0, sumaTotal = 0, numAux = 0;
     let indice = 0 ,  resultado = 0;
     let laCadena = cadena.trim().toLowerCase();
-    let caraControl =  ["j","a","b","c",
-                        "d","e","f","g",
-                        "h","i"];
+    let caraControl =  ["j", "a", "b", "c",
+                        "d", "e", "f", "g",
+                        "h", "i"];
     if (laCadena.length != 9) /*COMPRUEBA SI TIENE LOS 9 CARACTERES DE UN NIF*/
         codigoCorrecto=0;
     else
@@ -139,7 +140,7 @@ function NIFCIF(cadena)
     let laCadena = cadena.trim().toLowerCase();
     let codigo;
     let letraNif = ["x", "z", "y", "l", "k", "m"]; 
-    let letraCif = ["a","b","c","d","e","f","g", "h", "j", "n", "p","q","r","s","u","v","w"];
+    let letraCif = ["a", "b", "c", "d", "e", "f", "g", "h", "j", "n", "p", "q", "r", "s", "u", "v", "w"];
 
     if (laCadena.length > 9) /*COMPRUEBA SI TIENE LOS 9 CARACTERES*/
         codigo="0";
@@ -202,15 +203,38 @@ function calculoIBANEspanya(codCuenta)
     }else
     {
         codCuentaNumerico = codCuenta.toString() + "142800";
-        console.log (codCuenta)
-
-        control = 98n - (BigInt(codCuentaNumerico) % 97n);
-        console.log ( control)
-
+        control = 98n - (BigInt(codCuentaNumerico ) % 97n);
         control = (control < 10) ? ("0" + control.toString()) : control.toString() ; 
-        console.log ( control)
         iban = "ES" + control + codCuenta;
     }    
 
     return iban; 
+}
+function comprobarIban (iban)
+{
+    let valido = true;
+    let letrasNumeros = ["10", "11", "12", "13",
+                         "14", "15", "16", "17",
+                         "18", "19", "20", "21",
+                         "22", "23", "24", "25",
+                         "26", "27", "28", "29",
+                         "30", "31", "32", "33",
+                         "34", "35"];
+    let caracter;
+    let ibanComprobacion = iban.substring(4,iban.length);;
+    if (iban.length >= 34 || isNaN(iban.at(0)) ||  isNaN(iban.at(1)))
+        valido = false
+    else
+    {
+        for (let i = 0; i < 2; i++) {
+            caracter = letrasNumeros[iban[i].toLowerCase().charCodeAt(0) - 97];
+            console.log(caracter);
+            ibanComprobacion +=caracter;
+        }
+        ibanComprobacion += iban.substring(2,4); 
+        if (BigInt(ibanComprobacion)%97n != 1) 
+            valido = false;
+        
+    }
+    return true; 
 }

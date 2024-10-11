@@ -7,13 +7,32 @@ function inicio()
 }
 
 function comprobar(){
-    let cadena = document.formulario.dato.value;
-    document.formulario.mensaje.value = NIFCIF(cadena);
-    let codigo = document.formulario.codigo.value;
-    document.formulario.mensajeCodigo.value = separarCodigo(codigo);
-    let codCuenta = document.formulario.iban.value;
-    document.formulario.mensajeIban.value = calculoIBANEspanya(codCuenta);
-    comprobarIban("ES53012446037305887145372");
+    let nombre                       = document.formulario.nombre.value.toLowerCase().trim();
+    let codEmpresa                   = document.formulario.codEmpresa.value.toLowerCase().trim();
+    let cifNif                       = document.formulario.cifNif.value.toLowerCase().trim();
+    let direccion                    = document.formulario.direccion.value.toLowerCase().trim();
+    let telefono                     = document.formulario.telefono.value.toLowerCase().trim();
+    let localidad                    = document.formulario.localidad.value.toLowerCase().trim();
+    let codPostal                    = document.formulario.codPostal.value.toLowerCase().trim();
+    let codBanco                     = document.formulario.codBanco.value.toLowerCase().trim();
+    let codOficina                   = document.formulario.codOficina.value.toLowerCase().trim();
+    let codControl                   = document.formulario.codControl.value.toLowerCase().trim();
+    let numCuenta                    = document.formulario.numCuenta.value.toLowerCase().trim();
+    let iban                         = document.formulario.iban.value.toLowerCase().trim();
+    let fechaConstitucionEmpresa     = document.formulario.fechaConstitucionEmpresa.value.toLowerCase().trim();
+    let numeroTrabajadoresEmpresa    = document.formulario.numeroTrabajadoresEmpresa.value.toLowerCase().trim();
+    let numeroFabricasEmpresa        = document.formulario.numeroFabricasEmpresa.value.toLowerCase().trim();
+    let comunidades                  = document.formulario.comunidades.value.toLowerCase().trim();
+
+    let mensajeValido = "";
+    mensajeValido += comNombre(nombre);
+    mensajeValido += comCodigoEmpresa(codEmpresa);
+    mensajeValido += NIF_CIF(cifNif);
+    mensajeValido += comDireccion(direccion);
+    mensajeValido += comLocalidad(localidad);
+    mensajeValido += comCodPostal(codPostal);
+    mensajeValido += comTelefono(telefono);
+
 }
 /********************************************************************************/
 
@@ -237,4 +256,103 @@ function comprobarIban (iban)
         
     }
     return true; 
+}
+/*******COMPROBACIONES PARAMETROS DE FORMULARIO**********************************************************************************************************/
+
+function comNombre(nombre)
+{
+    let indice = 0;
+    let valido = true;
+    let mensaje = "";
+    valido = comprobarLetra(nombre.at(indice),"")
+    indice += 1;
+    while (valido &&  indice < nombre.length-1)
+    {
+        valido = comprobaLetDigCar(nombre.at(indice),"ºª-.");
+        indice += 1;
+    }
+        
+    valido = comprobaLetDigCar(nombre.at(nombre.length-1),".");
+    if (!valido)
+        mensaje = "El dato de Razón Social/Apellidos y Nombre no es correcto. \n "
+    return mensaje;
+}
+
+function comCodigoEmpresa(codEmpresa)
+{
+    let indice = 0;
+    let valido = true;
+    let mensaje = "";
+    
+    while (valido &&  indice < nombre.length)
+    {
+        valido = comprobaLetDigCar(nombre.at(indice),"a");
+        indice += 1;
+    }
+
+    if (!valido || codEmpresa.length > 10 || codEmpresa.length < 5)
+        mensaje = "El dato de Código de la empresa no es correcto. \n "
+    return mensaje;
+}
+
+function comDireccion(direccion)
+{
+    let indice = 0;
+    let valido = true;
+    let mensaje = "";
+    valido = comprobarLetra(direccion.at(indice),"a")
+    indice += 1;
+
+    while (valido &&  indice < direccion.length-1)
+    {
+        valido = comprobaLetDigCar(direccion.at(indice),"ºª-/.");
+        indice += 1;
+    }
+    valido = comprobaLetDigCar(direccion.at(direccion.length-1),"a");
+
+    if (!valido)
+        mensaje = "El dato de la dirección no es correcta. \n "
+    return mensaje;
+}
+
+function comLocalidad(localidad)
+{
+    let indice = 0;
+    let valido = true;
+    let mensaje = "";
+    valido = comprobarLetra(nombre.at(indice),"")
+    indice += 1;
+    while (valido &&  indice < nombre.length)
+    {
+        valido = comprobaLetDigCar(nombre.at(indice)," ");
+        indice += 1;
+    }
+    if (!valido)
+        mensaje = "El dato de la localidad no es correcto. \n "
+    return mensaje;
+}
+function comCodPostal(codPostal)
+{
+    let indice = 0;
+    let valido = true; 
+    
+}
+/*******COMPROBACIONES EXHAUSTIVAS**********************************************************************************************************************/
+
+function comprobarLetraCar(caracter,otros) 
+{
+    let valido = true;
+    if (caracter < "a" || caracter > "z") 
+        if (!otros.includes(caracter))
+            valido=false; 
+    return valido;     
+}
+
+function comprobarLetDigCar(caracter,otros) 
+{
+    let valido = true;
+    if (caracter < "a" || caracter > "z" || caracter < "0" || caracter > "9" )
+        if (! otros.includes(caracter))
+            valido=false; 
+    return valido;     
 }

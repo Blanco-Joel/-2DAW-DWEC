@@ -27,12 +27,12 @@ function comprobar(){
     let mensajeValido = "";
     mensajeValido += comNombre(nombre);
     mensajeValido += comCodigoEmpresa(codEmpresa);
-    mensajeValido += NIF_CIF(cifNif);
+    mensajeValido += NIFCIF(cifNif);
     mensajeValido += comDireccion(direccion);
     mensajeValido += comLocalidad(localidad);
     mensajeValido += comCodPostal(codPostal);
     mensajeValido += comTelefono(telefono);
-
+console.log(mensajeValido);
 }
 /********************************************************************************/
 
@@ -104,9 +104,8 @@ function esCif(cadena)
     let numerosCadena = 0, sumaTotal = 0, numAux = 0;
     let indice = 0 ,  resultado = 0;
     let laCadena = cadena.trim().toLowerCase();
-    let caraControl =  ["j", "a", "b", "c",
-                        "d", "e", "f", "g",
-                        "h", "i"];
+    let caraControl =  ["j", "a", "b", "c", "d",
+                        "e", "f", "g", "h", "i"];
     if (laCadena.length != 9) /*COMPRUEBA SI TIENE LOS 9 CARACTERES DE UN NIF*/
         codigoCorrecto=0;
     else
@@ -159,7 +158,9 @@ function NIFCIF(cadena)
     let laCadena = cadena.trim().toLowerCase();
     let codigo;
     let letraNif = ["x", "z", "y", "l", "k", "m"]; 
-    let letraCif = ["a", "b", "c", "d", "e", "f", "g", "h", "j", "n", "p", "q", "r", "s", "u", "v", "w"];
+    let letraCif = ["a", "b", "c", "d", "e", "f",
+                    "g", "h", "j", "n", "p", "q",
+                    "r", "s", "u", "v", "w"];
 
     if (laCadena.length > 9) /*COMPRUEBA SI TIENE LOS 9 CARACTERES*/
         codigo="0";
@@ -264,15 +265,15 @@ function comNombre(nombre)
     let indice = 0;
     let valido = true;
     let mensaje = "";
-    valido = comprobarLetra(nombre.at(indice),"")
+    valido = comprobarLetraCar(nombre.at(indice),"")
     indice += 1;
     while (valido &&  indice < nombre.length-1)
     {
-        valido = comprobaLetDigCar(nombre.at(indice),"ºª-.");
+        valido = comprobarLetDigCar(nombre.at(indice),"ºª-.");
         indice += 1;
     }
         
-    valido = comprobaLetDigCar(nombre.at(nombre.length-1),".");
+    valido = comprobarLetDigCar(nombre.at(nombre.length-1),".");
     if (!valido)
         mensaje = "El dato de Razón Social/Apellidos y Nombre no es correcto. \n "
     return mensaje;
@@ -286,7 +287,7 @@ function comCodigoEmpresa(codEmpresa)
     
     while (valido &&  indice < nombre.length)
     {
-        valido = comprobaLetDigCar(nombre.at(indice),"a");
+        valido = comprobarLetDigCar(nombre.at(indice),"a");
         indice += 1;
     }
 
@@ -300,15 +301,15 @@ function comDireccion(direccion)
     let indice = 0;
     let valido = true;
     let mensaje = "";
-    valido = comprobarLetra(direccion.at(indice),"a")
+    valido = comprobarLetraCar(direccion.at(indice),"a")
     indice += 1;
 
     while (valido &&  indice < direccion.length-1)
     {
-        valido = comprobaLetDigCar(direccion.at(indice),"ºª-/.");
+        valido = comprobarLetDigCar(direccion.at(indice),"ºª-/.");
         indice += 1;
     }
-    valido = comprobaLetDigCar(direccion.at(direccion.length-1),"a");
+    valido = comprobarLetDigCar(direccion.at(direccion.length-1),"a");
 
     if (!valido)
         mensaje = "El dato de la dirección no es correcta. \n "
@@ -320,41 +321,68 @@ function comLocalidad(localidad)
     let indice = 0;
     let valido = true;
     let mensaje = "";
-    valido = comprobarLetra(nombre.at(indice),"")
+    valido = comprobarLetraCar(localidad.at(indice),"")
     indice += 1;
-    while (valido &&  indice < nombre.length)
+    while (valido &&  indice < localidad.length)
     {
-        valido = comprobaLetDigCar(nombre.at(indice)," ");
+        valido = comprobarLetDigCar(localidad.at(indice)," ");
         indice += 1;
     }
     if (!valido)
         mensaje = "El dato de la localidad no es correcto. \n "
     return mensaje;
 }
+
 function comCodPostal(codPostal)
 {
     let indice = 0;
     let valido = true; 
+    let mensaje = "";
+
     while (valido && indice < codPostal.length) 
-        valido = comprobarDigNat(codPostal.at(indice));
-    if (parseInt(codPostal) < 10000 ||parseInt(codPostal) > 52999)
+        valido = comprobarDig(codPostal.at(indice));
+    if (parseInt(codPostal) < 1000 ||parseInt(codPostal) > 52999)
         valido = false;
-    return valido;
+    if (valido) 
+        codPostalProvincia(codPostal);
+    if (!valido)
+        mensaje = "El dato del codigo postal no es correcto. \n "
+    return mensaje;
 }
 
-let provincias = ["Álava",          "Albacete",               "Alicante", "Almeria",
-                  "Ávila",          "Badajoz",                "Islas Baleares","Barcelona",
-                  "Burgos",         "Cáceres",                "Cádiz","Castellón",
-                  "Ciudad Real",    "Córdoba",                "A Coruña","Cuenca",
-                  "Girona",         "Granada",                "Guadalajara","Gipuzkoa",
-                  "Huelva",         "Huesca",                 "Jaén", "León",
-                  "Lleida",         "La Rioja",               "Lugo", "Madrid",
-                  "Málaga",         "Murcia",                 "Navarra", "Ourense",
-                  "Asturias",       "Palencia",               "Las Palmas", "Pontevedra",
-                  "Salamanca",      "Santa Cruz de Tenerife", "Cantabria","Segovia",
-                  "Sevilla",        "Soria",                  "Tarragona","Teruel",
-                  "Toledo",         "Valencia",               "Valladolid","Bizkaia",
-                  "Zamora",         "Zaragoza",               "Ceuta", "Melilla"];
+function comTelefono(telefono) 
+{
+    let valido = true;
+    telefono = telefono.toString();
+    if (telefono.length != 9) 
+        valido = false;
+    if (telefono.at(0) != "9" || telefono.at(0) != "6" ||telefono.at(0) != "7" ) 
+        valido = false;
+    if (!valido)
+        mensaje = "El dato del número de telefono no es correcto. \n "
+    return mensaje;
+}
+
+
+
+function codPostalProvincia(codPostal)
+{
+    let provincias = ["Álava",          "Albacete",               "Alicante",           "Almeria",
+                      "Ávila",          "Badajoz",                "Islas Baleares",     "Barcelona",
+                      "Burgos",         "Cáceres",                "Cádiz",              "Castellón",
+                      "Ciudad Real",    "Córdoba",                "A Coruña",           "Cuenca",
+                      "Girona",         "Granada",                "Guadalajara",        "Gipuzkoa",
+                      "Huelva",         "Huesca",                 "Jaén",               "León",
+                      "Lleida",         "La Rioja",               "Lugo",               "Madrid",
+                      "Málaga",         "Murcia",                 "Navarra",            "Ourense",
+                      "Asturias",       "Palencia",               "Las Palmas",         "Pontevedra",
+                      "Salamanca",      "Santa Cruz de Tenerife", "Cantabria",          "Segovia",
+                      "Sevilla",        "Soria",                  "Tarragona",          "Teruel",
+                      "Toledo",         "Valencia",               "Valladolid",         "Bizkaia",
+                      "Zamora",         "Zaragoza",               "Ceuta",              "Melilla"];
+    
+    document.formulario.provincia.value = provincias[parseInt(codPostal.substring(0,2))];
+}
 
 /*******COMPROBACIONES EXHAUSTIVAS**********************************************************************************************************************/
 
@@ -367,12 +395,19 @@ function comprobarLetraCar(caracter,otros)
     return valido;     
 }
 
-function comprobarDigNat(caracter) 
+function comprobarDig(caracter) 
 {
     let valido = true;
     if (caracter < "0" || caracter > "9" ) 
         valido=false; 
     return valido;     
+}
+function digitoNat(numero)
+{
+    let valido = true;
+    if (parseInt(numero) < 0)
+        valido = false;
+    return valido;
 }
 function comprobarLetDigCar(caracter,otros) 
 {

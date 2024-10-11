@@ -335,8 +335,27 @@ function comCodPostal(codPostal)
 {
     let indice = 0;
     let valido = true; 
-    
+    while (valido && indice < codPostal.length) 
+        valido = comprobarDigNat(codPostal.at(indice));
+    if (parseInt(codPostal) < 10000 ||parseInt(codPostal) > 52999)
+        valido = false;
+    return valido;
 }
+
+let provincias = ["Álava",          "Albacete",               "Alicante", "Almeria",
+                  "Ávila",          "Badajoz",                "Islas Baleares","Barcelona",
+                  "Burgos",         "Cáceres",                "Cádiz","Castellón",
+                  "Ciudad Real",    "Córdoba",                "A Coruña","Cuenca",
+                  "Girona",         "Granada",                "Guadalajara","Gipuzkoa",
+                  "Huelva",         "Huesca",                 "Jaén", "León",
+                  "Lleida",         "La Rioja",               "Lugo", "Madrid",
+                  "Málaga",         "Murcia",                 "Navarra", "Ourense",
+                  "Asturias",       "Palencia",               "Las Palmas", "Pontevedra",
+                  "Salamanca",      "Santa Cruz de Tenerife", "Cantabria","Segovia",
+                  "Sevilla",        "Soria",                  "Tarragona","Teruel",
+                  "Toledo",         "Valencia",               "Valladolid","Bizkaia",
+                  "Zamora",         "Zaragoza",               "Ceuta", "Melilla"];
+
 /*******COMPROBACIONES EXHAUSTIVAS**********************************************************************************************************************/
 
 function comprobarLetraCar(caracter,otros) 
@@ -348,6 +367,13 @@ function comprobarLetraCar(caracter,otros)
     return valido;     
 }
 
+function comprobarDigNat(caracter) 
+{
+    let valido = true;
+    if (caracter < "0" || caracter > "9" ) 
+        valido=false; 
+    return valido;     
+}
 function comprobarLetDigCar(caracter,otros) 
 {
     let valido = true;

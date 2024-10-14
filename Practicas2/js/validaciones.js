@@ -19,20 +19,27 @@ function comprobar(){
     let codControl                   = document.formulario.codControl.value.toLowerCase().trim();
     let numCuenta                    = document.formulario.numCuenta.value.toLowerCase().trim();
     let iban                         = document.formulario.iban.value.toLowerCase().trim();
-    let fechaConstitucionEmpresa     = document.formulario.fechaConstitucionEmpresa.value.toLowerCase().trim();
-    let numeroTrabajadoresEmpresa    = document.formulario.numeroTrabajadoresEmpresa.value.toLowerCase().trim();
-    let numeroFabricasEmpresa        = document.formulario.numeroFabricasEmpresa.value.toLowerCase().trim();
-    let comunidades                  = document.formulario.comunidades.value.toLowerCase().trim();
+    let fecha                        = document.formulario.fecha.value.toLowerCase().trim();
+    let numTrab                      = document.formulario.numTrab.value.toLowerCase().trim();
+    let numFab                      = document.formulario.numTrab.value.toLowerCase().trim();
 
     let mensajeValido = "";
     mensajeValido += comNombre(nombre);
     mensajeValido += comCodigoEmpresa(codEmpresa);
     mensajeValido += NIFCIF(cifNif);
+    mensajeValido += comTipoPersona();
     mensajeValido += comDireccion(direccion);
     mensajeValido += comLocalidad(localidad);
     mensajeValido += comCodPostal(codPostal);
     mensajeValido += comTelefono(telefono);
-console.log(mensajeValido);
+    mensajeValido += comFecha(fecha);
+    mensajeValido += comNumTrab(numTrab);
+    mensajeValido += comNumFab(numFab);
+    mensajeValido += comComunidad();
+    mensajeValido += comSector();
+    mensajeValido += comTipoEmpresa();
+    
+    window.alert(mensajeValido);
 }
 /********************************************************************************/
 
@@ -161,17 +168,16 @@ function NIFCIF(cadena)
     let letraCif = ["a", "b", "c", "d", "e", "f",
                     "g", "h", "j", "n", "p", "q",
                     "r", "s", "u", "v", "w"];
-
-    if (laCadena.length > 9) /*COMPRUEBA SI TIENE LOS 9 CARACTERES*/
-        codigo="0";
+    if (laCadena.length > 9 || laCadena.length === 0) /*COMPRUEBA SI TIENE LOS 9 CARACTERES*/
+        codigo="0\n";
     else
     {
         if (letraCif.includes(laCadena.at(0)))
-            codigo = "C" + esCif(cadena).toString();
+            codigo = "C" + esCif(cadena).toString() + "\n";
         if (letraNif.includes(laCadena.at(0)))
-            codigo = "N" + esNif(cadena).toString();
+            codigo = "N" + esNif(cadena).toString() + "\n";
         if (laCadena.at(0) >= 0 && laCadena.at(0) <= 9)
-            codigo = "N" + esNif(cadena).toString();
+            codigo = "N" + esNif(cadena).toString() + "\n";
     }
     return codigo;
 }
@@ -219,7 +225,7 @@ function calculoIBANEspanya(codCuenta)
     let codCuentaNumerico;
     let iban = "";
     if (codCuenta.length != 20 || isNaN(codCuenta)) {
-        iban = "El código introducido no es válido.";
+        iban = "El código introducido no es válido.\n";
     }else
     {
         codCuentaNumerico = codCuenta.toString() + "142800";
@@ -248,7 +254,6 @@ function comprobarIban (iban)
     {
         for (let i = 0; i < 2; i++) {
             caracter = letrasNumeros[iban[i].toLowerCase().charCodeAt(0) - 97];
-            console.log(caracter);
             ibanComprobacion +=caracter;
         }
         ibanComprobacion += iban.substring(2,4); 
@@ -265,17 +270,22 @@ function comNombre(nombre)
     let indice = 0;
     let valido = true;
     let mensaje = "";
-    valido = comprobarLetraCar(nombre.at(indice),"")
-    indice += 1;
-    while (valido &&  indice < nombre.length-1)
-    {
-        valido = comprobarLetDigCar(nombre.at(indice),"ºª-.");
+    if (nombre.length == 0)
+        valido = false;
+    else{
+        valido = comprobarLetraCar(nombre.at(indice),"")
         indice += 1;
+        while (valido &&  indice < nombre.length-1)
+        {
+            valido = comprobarLetDigCar(nombre.at(indice),"ºª-.");
+            indice += 1;
+        }
+            
+        valido = comprobarLetDigCar(nombre.at(nombre.length-1),".");
     }
-        
-    valido = comprobarLetDigCar(nombre.at(nombre.length-1),".");
+
     if (!valido)
-        mensaje = "El dato de Razón Social/Apellidos y Nombre no es correcto. \n "
+        mensaje = "El dato de Razón Social/Apellidos y Nombre no es correcto.\n"
     return mensaje;
 }
 
@@ -292,7 +302,18 @@ function comCodigoEmpresa(codEmpresa)
     }
 
     if (!valido || codEmpresa.length > 10 || codEmpresa.length < 5)
-        mensaje = "El dato de Código de la empresa no es correcto. \n "
+        mensaje = "El dato de Código de la empresa no es correcto.\n"
+    return mensaje;
+}
+
+function comTipoPersona() 
+{
+    let valido=false;
+    let mensaje= "";
+    for(let i=0;i <document.formulario.tipoPersona.length;i++)
+        valido = valido ||document.formulario.tipoPersona[i].checked;
+    if(!valido)
+        mensaje+="Debe seleccionar el tipo de persona.\n";    
     return mensaje;
 }
 
@@ -301,18 +322,21 @@ function comDireccion(direccion)
     let indice = 0;
     let valido = true;
     let mensaje = "";
-    valido = comprobarLetraCar(direccion.at(indice),"a")
-    indice += 1;
-
-    while (valido &&  indice < direccion.length-1)
-    {
-        valido = comprobarLetDigCar(direccion.at(indice),"ºª-/.");
+    if (direccion.length == 0)
+        valido = false;
+    else{
+        valido = comprobarLetraCar(direccion.at(indice),"a")
         indice += 1;
-    }
-    valido = comprobarLetDigCar(direccion.at(direccion.length-1),"a");
 
+        while (valido &&  indice < direccion.length-1)
+        {
+            valido = comprobarLetDigCar(direccion.at(indice),"ºª-/.");
+            indice += 1;
+        }
+        valido = comprobarLetDigCar(direccion.at(direccion.length-1),"a");
+    }
     if (!valido)
-        mensaje = "El dato de la dirección no es correcta. \n "
+        mensaje = "El dato de la dirección no es correcta.\n"
     return mensaje;
 }
 
@@ -321,15 +345,19 @@ function comLocalidad(localidad)
     let indice = 0;
     let valido = true;
     let mensaje = "";
-    valido = comprobarLetraCar(localidad.at(indice),"")
-    indice += 1;
-    while (valido &&  indice < localidad.length)
-    {
-        valido = comprobarLetDigCar(localidad.at(indice)," ");
+    if (localidad.length == 0)
+        valido = false;
+    else{
+        valido = comprobarLetraCar(localidad.at(indice),"")
         indice += 1;
+        while (valido &&  indice < localidad.length)
+        {
+            valido = comprobarLetDigCar(localidad.at(indice)," ");
+            indice += 1;
+        }
     }
     if (!valido)
-        mensaje = "El dato de la localidad no es correcto. \n "
+        mensaje = "El dato de la localidad no es correcto.\n"
     return mensaje;
 }
 
@@ -338,32 +366,23 @@ function comCodPostal(codPostal)
     let indice = 0;
     let valido = true; 
     let mensaje = "";
-
-    while (valido && indice < codPostal.length) 
-        valido = comprobarDig(codPostal.at(indice));
-    if (parseInt(codPostal) < 1000 ||parseInt(codPostal) > 52999)
+    if (codPostal.length == 0)
         valido = false;
-    if (valido) 
-        codPostalProvincia(codPostal);
+    else{
+        while (valido && indice < codPostal.length) 
+        {
+            valido = comprobarDig(codPostal.at(indice));
+            indice += 1;
+        }
+        if (parseInt(codPostal) < 1000 ||parseInt(codPostal) > 52999)
+            valido = false;
+        if (valido) 
+            codPostalProvincia(codPostal);
+    }
     if (!valido)
-        mensaje = "El dato del codigo postal no es correcto. \n "
+        mensaje = "El dato del codigo postal no es correcto.\n"
     return mensaje;
 }
-
-function comTelefono(telefono) 
-{
-    let valido = true;
-    telefono = telefono.toString();
-    if (telefono.length != 9) 
-        valido = false;
-    if (telefono.at(0) != "9" || telefono.at(0) != "6" ||telefono.at(0) != "7" ) 
-        valido = false;
-    if (!valido)
-        mensaje = "El dato del número de telefono no es correcto. \n "
-    return mensaje;
-}
-
-
 
 function codPostalProvincia(codPostal)
 {
@@ -380,8 +399,183 @@ function codPostalProvincia(codPostal)
                       "Sevilla",        "Soria",                  "Tarragona",          "Teruel",
                       "Toledo",         "Valencia",               "Valladolid",         "Bizkaia",
                       "Zamora",         "Zaragoza",               "Ceuta",              "Melilla"];
+    if (codPostal.length == 4) 
+        document.formulario.provincia.value = provincias[parseInt(codPostal.substring(0,1))-1];
     
-    document.formulario.provincia.value = provincias[parseInt(codPostal.substring(0,2))];
+    else 
+        document.formulario.provincia.value = provincias[parseInt(codPostal.substring(0,2))-1];
+}
+function comFecha(fecha)
+{
+    let valido = true;
+    let mensaje= "";
+    let arrayFecha = fecha.replaceAll("-","/");
+        arrayFecha = arrayFecha.split("/");
+    let mes = 28;
+    arrayFecha[0] = parseInt(arrayFecha[0]);
+    arrayFecha[1] = parseInt(arrayFecha[1]);
+    arrayFecha[2] = parseInt(arrayFecha[2]);
+
+    if (fecha.length == 0) 
+        valido = false;
+    else{
+        if (arrayFecha[2] < 100)
+            
+            if (arrayFecha[2] < 24) {
+                arrayFecha[2] += 2000;
+            } else {
+                arrayFecha[2] += 1900;
+            }
+        if ((((arrayFecha[2]) % 4 == 0) && ((arrayFecha[2]) % 100 != 0 )) || ((arrayFecha[2]) % 400 == 0))
+            mes = 29;
+
+        switch ((arrayFecha[1])) {
+            case 1,3,5,7,8,10,12:
+                if ((arrayFecha[0]) > 31) {
+                    valido = false;
+                }
+                break;
+            case 2:
+                if ((arrayFecha[0]) > mes) {
+                    valido = false;
+                }
+                break;   
+            case 4,6,9,11:
+
+                if ((arrayFecha[0]) > 30) {
+                    valido = false;
+                }
+                break;
+            default:    
+    
+            valido = false;
+                break;
+        }
+    }
+    if (!valido)
+        mensaje = "El dato de la fecha no es correcto.\n"
+    return mensaje;
+}
+function comNumTrab(numTrab)
+{
+    let valido = true;
+    let mensaje = "";
+    let indice = 0;
+
+    if (numTrab.length == 0) 
+        valido = false;
+    else
+    {
+        while (valido && indice < numTrab.length) 
+        {
+            valido = comprobarDig(numTrab.at(indice));
+            indice += 1;
+        }
+        if (parseInt(numTrab) < 0 ) 
+            valido = false;
+    }
+        if (!valido)
+        mensaje = "El dato del número de trabajadores no es correcto.\n"
+    return mensaje;
+}
+function comNumFab(numFab)
+{
+    let valido = true;
+    let mensaje = "";
+    let indice = 0;
+    if (numFab.length == 0) 
+        valido = false;
+    else
+    {
+        while (valido && indice < numFab.length) 
+        {
+            valido = comprobarDig(numFab.at(indice));
+            indice += 1;
+            console.log(numFab.at(indice))
+
+        }
+        if (parseInt(numFab) < 0 ) 
+            valido = false;
+    }
+    if (!valido)
+        mensaje = "El dato del número de Fabricas no es correcto.\n"
+    return mensaje;
+}
+
+function comTelefono(telefono) 
+{
+    let valido = true;
+    let mensaje= "";
+
+    telefono = telefono.toString();
+    if (telefono.length != 9 || isNaN(parseInt(telefono))) 
+        valido = false;
+    if (telefono.at(0) != "9") 
+        valido = false;
+    if (!valido)
+        mensaje = "El dato del número de telefono no es correcto.\n"
+    return mensaje;
+}
+function comFax(fax) 
+{
+    let valido = true;
+    fax = fax.toString();
+    if (fax.length != 9 || isNaN(parseInt(fax))) 
+        valido = false;
+    if (fax.at(0) != "9" || fax.at(0) != "6" ||fax.at(0) != "7" ) 
+        valido = false;
+    if (!valido)
+        mensaje = "El dato del número de fax no es correcto.\n"
+    return mensaje;
+
+}
+
+
+function comComunidad()
+{
+    let mensaje = "";
+    let cont = 0;
+    let opciones = formulario.comunidades.options; 
+    
+    for (let i = 0; i < opciones.length; i++) 
+        if (opciones[i].selected) 
+            cont += 1;
+        
+    if (cont < 2 )
+        mensaje += "Debe seleccionar al menos dos comunidades.\n" ;
+
+    return mensaje;
+}
+function comSector()
+{
+    let cont = 0;
+    let mensaje = "";
+    if (document.formulario.Alimentacion.checked) cont += 1;
+    if (document.formulario.Informatica.checked) cont += 1;
+    if (document.formulario.Comercio.checked) cont += 1;
+    if (document.formulario.Construccion.checked) cont += 1;
+    if (document.formulario.Hosteleria.checked) cont += 1;
+    if (document.formulario.Automocion.checked) cont += 1;
+    if (document.formulario.Calzado.checked) cont += 1;
+    if (document.formulario.Turismo.checked) cont += 1;
+    if (document.formulario.Agricultura.checked) cont += 1;
+    if (document.formulario.Ganaderia.checked) cont += 1;
+    if (document.formulario.Otros.checked) cont += 1;
+
+    if(cont <1)
+        mensaje+="Debe seleccionar al menos un sector económico.\n";
+    return mensaje;
+}
+
+function comTipoEmpresa() 
+{
+    let valido=false;
+    let mensaje= "";
+    for(let i=0;i <document.formulario.tipoEmpresa.length;i++)
+        valido = valido ||document.formulario.tipoEmpresa[i].checked;
+    if(!valido)
+        mensaje+="Debe seleccionar el tipo de Empresa.\n";    
+    return mensaje;
 }
 
 /*******COMPROBACIONES EXHAUSTIVAS**********************************************************************************************************************/

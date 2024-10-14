@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
-    <title>Plantilla </title>
+    <title>Validaciones</title>
     <meta charset="utf-8" />
     <meta name="author" content="Asier" />
     <link href="./css/style.css" rel="stylesheet" type="text/css" />
@@ -21,8 +21,8 @@
                         <label for="cifNif">Cif/Nif de la empresa </label><input type="text" name="cifNif" id="cifNif"><br>
                         <fieldset>
                             <legend>Tipo de persona</legend>
-                            <input type="radio" name="tipoPersona" value="Juridica"><label for="Juridica"> Juridica  </label>
-                            <input type="radio" name="tipoPersona" value="Fisica"><label for="Fisica"> Fisica  </label>
+                            <input type="radio" name="tipoPersona" value="Juridica"><label for="Juridica">Juridica</label>
+                            <input type="radio" name="tipoPersona" value="Fisica"><label for="Fisica">Fisica</label>
                         </fieldset>
                         <fieldset>
                             <legend>Domicilio Social/Particular </legend>
@@ -30,26 +30,26 @@
                             <label for="telefono">Telefono </label><input type="text" id="telefono" name="telefono">
                             <br>
                             <label for="localidad">Localidad </label><input type="text" id="localidad" name="localidad">
-                            <label for="codPostal">cod postal </label><input type="number" id="codPostal" name="codPostal">
+                            <label for="codPostal">cod postal </label><input type="text" id="codPostal" name="codPostal">
                             <br>
-                            <label for="provincia">Provincia </label><input type="number" id="provincia" name="provincia" readonly>
+                            <label for="provincia">Provincia </label><input type="text" id="provincia" name="provincia" readonly>
                         </fieldset>
                         <fieldset>
                             <legend>Datos Bancarios</legend>
-                            <label for="codBanco">Código del banco </label><input type="number" id="codBanco" name="codBanco"><br>
-                            <label for="codOficina">Código oficina </label><input type="number" id="codOficina" name="codOficina"><br>
-                            <label for="codControl">Código Control </label><input type="number" id="codControl" name="codControl"><br>
-                            <label for="numCuenta">Numero de cuenta </label><input type="number" id="numCuenta" name="numCuenta"><br>
+                            <label for="codBanco">Código del banco </label><input type="text" id="codBanco" name="codBanco"><br>
+                            <label for="codOficina">Código oficina </label><input type="text" id="codOficina" name="codOficina"><br>
+                            <label for="codControl">Código Control </label><input type="text" id="codControl" name="codControl"><br>
+                            <label for="numCuenta">Numero de cuenta </label><input type="text" id="numCuenta" name="numCuenta"><br>
                             <label for="iban">IBAN </label><input type="text" id="iban" name="iban"><br>
                         </fieldset>
                         <br><br>
-                        <label for="fecConEmpr">Fecha de Constitución de la Empresa </label><input type="number" id="fecConEmpr" name="fechaConstitucionEmpresa"><br>
-                        <label for="numTrabEmpre">Número de Trabajadores de la Empresa </label><input type="number" id="numTrabEmpre" name="numeroTrabajadoresEmpresa"><br>
-                        <label for="numFabEmpre">Número de Fabricas de la Empresa </label><input type="number" id="numFabEmpre" name="numeroFabricasEmpresa"><br>
+                        <label for="fecha">Fecha de Constitución de la Empresa </label><input type="text" id="fecha" name="fecha"><br>
+                        <label for="numTrab">Número de Trabajadores de la Empresa </label><input type="text" id="numTrab" name="numTrab"><br>
+                        <label for="numFab">Número de Fabricas de la Empresa </label><input type="text" id="numFab" name="numFab"><br>
                         <br>
 
-                        <label for="ListaComunidades">Comunidades en las que hay empresas</label>
-                        <select name="comunidades" id="ListaComunidades" size="5" multiple>
+                        <label for="comunidades">Comunidades en las que hay empresas</label>
+                        <select name="comunidades" id="comunidades" size="5" multiple>
                             <option value="andalucia">Andalucía</option>
                             <option value="aragon">Aragón</option>
                             <option value="asturias">Asturias</option>
@@ -72,19 +72,19 @@
 
                         <fieldset>
                             <legend>Sector/es Económicos</legend>
-                            <input type="checkbox" name="sectorEconomio" id="Alimentacion"><label for="Alimentacion">Alimentacion</label>
-                            <input type="checkbox" name="sectorEconomio" id="Informatica"><label for="Informatica">Informatica</label>
-                            <input type="checkbox" name="sectorEconomio" id="Comercio"><label for="Comercio">Comercio</label>
-                            <input type="checkbox" name="sectorEconomio" id="Construccion"><label for="Construccion">Construccion</label>
-                            <input type="checkbox" name="sectorEconomio" id="Hosteleria"><label for="Hosteleria">Hosteleria</label>
-                            <input type="checkbox" name="sectorEconomio" id="Alimentacion"><label for="Alimentacion">Alimentacion</label>
-                            <input type="checkbox" name="sectorEconomio" id="Alimentacion"><label for="Alimentacion">Alimentacion</label>
-                            <input type="checkbox" name="sectorEconomio" id="Automocion"><label for="Automocion">Automocion</label>
-                            <input type="checkbox" name="sectorEconomio" id="Calzado"><label for="Calzado">Calzado</label>
-                            <input type="checkbox" name="sectorEconomio" id="Turismo"><label for="Turismo">Turismo</label>
-                            <input type="checkbox" name="sectorEconomio" id="Agricultura"><label for="Agricultura">Agricultura</label>
-                            <input type="checkbox" name="sectorEconomio" id="Ganaderia"><label for="Ganaderia">Ganaderia</label>
-                            <input type="checkbox" name="sectorEconomio" id="Otros"><label for="Otros">Otros</label>
+                            <input type="checkbox" name="secEcom" id="Alimentacion"><label for="Alimentacion">Alimentacion</label>
+                            <input type="checkbox" name="secEcom" id="Informatica"><label for="Informatica">Informatica</label>
+                            <input type="checkbox" name="secEcom" id="Comercio"><label for="Comercio">Comercio</label>
+                            <input type="checkbox" name="secEcom" id="Construccion"><label for="Construccion">Construccion</label>
+                            <input type="checkbox" name="secEcom" id="Hosteleria"><label for="Hosteleria">Hosteleria</label>
+                            <input type="checkbox" name="secEcom" id="Alimentacion"><label for="Alimentacion">Alimentacion</label>
+                            <input type="checkbox" name="secEcom" id="Alimentacion"><label for="Alimentacion">Alimentacion</label>
+                            <input type="checkbox" name="secEcom" id="Automocion"><label for="Automocion">Automocion</label>
+                            <input type="checkbox" name="secEcom" id="Calzado"><label for="Calzado">Calzado</label>
+                            <input type="checkbox" name="secEcom" id="Turismo"><label for="Turismo">Turismo</label>
+                            <input type="checkbox" name="secEcom" id="Agricultura"><label for="Agricultura">Agricultura</label>
+                            <input type="checkbox" name="secEcom" id="Ganaderia"><label for="Ganaderia">Ganaderia</label>
+                            <input type="checkbox" name="secEcom" id="Otros"><label for="Otros">Otros</label>
                         </fieldset>
                         <br>
 

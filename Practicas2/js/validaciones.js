@@ -224,6 +224,7 @@ function codigosControl(codBanco,codSucursal,codCuenta)
         n3 = n3 == 10 ? 0 : n3 == 11 ? 1 : n3;
         mensaje = n1.toString()+n3.toString();
     }
+    console.log(mensaje)
     return mensaje;
 }
 function calculoIBANEspanya(codCuenta) 

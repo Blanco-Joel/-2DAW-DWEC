@@ -212,19 +212,34 @@ function codigosControl(codBanco,codSucursal,codCuenta)
         mensaje = "El código de control introducido no es válido.";
     }else{
         codBanco = (codBanco).toString().split("");
-        n1 = (parseInt(codBanco[0]) * 4) + (parseInt(codBanco[1]) * 8) + (parseInt(codBanco[2]) * 5) + (parseInt(codBanco[3]) * 10);
+        n1 = (parseInt(codBanco[0]) * 4) +
+             (parseInt(codBanco[1]) * 8) + 
+             (parseInt(codBanco[2]) * 5) + 
+             (parseInt(codBanco[3]) * 10);
         codSucursal = (codSucursal).toString().split('');
-        n2 = (parseInt(codSucursal[0]) * 9) + (parseInt(codSucursal[1]) * 7) + (parseInt(codSucursal[2]) * 3) + (parseInt(codSucursal[3]) * 6);
+        n2 = (parseInt(codSucursal[0]) * 9) + 
+             (parseInt(codSucursal[1]) * 7) + 
+             (parseInt(codSucursal[2]) * 3) + 
+             (parseInt(codSucursal[3]) * 6);
         codCuenta = (codCuenta).toString().split('');
-        n3 = parseInt(codCuenta[0]) + (parseInt(codCuenta[1]) * 2) + (parseInt(codCuenta[2]) * 4) + (parseInt(codCuenta[3]) * 8) + (parseInt(codCuenta[4]) * 5) + 
-                    (parseInt(codCuenta[5]) * 10) + (parseInt(codCuenta[6]) * 9) + (parseInt(codCuenta[7]) * 7) + (parseInt(codCuenta[8]) * 3) + (parseInt(codCuenta[9]) * 6);
+        n3 = (parseInt(codCuenta[0]) * 1) +    
+             (parseInt(codCuenta[1]) * 2) +    
+             (parseInt(codCuenta[2]) * 4) +   
+             (parseInt(codCuenta[3]) * 8) +    
+             (parseInt(codCuenta[4]) * 5) +    
+             (parseInt(codCuenta[5]) * 10) +   
+             (parseInt(codCuenta[6]) * 9) +   
+             (parseInt(codCuenta[7]) * 7) +   
+             (parseInt(codCuenta[8]) * 3) +   
+             (parseInt(codCuenta[9]) * 6);   
+                    
         n1 = 11 - ((n1 + n2) % 11);
         n1 = n1 == 10 ? 0 : n1 == 11 ? 1 : n1;
         n3 = 11 - (n3 % 11);
+        console.log(n3.toString());
         n3 = n3 == 10 ? 0 : n3 == 11 ? 1 : n3;
         mensaje = n1.toString()+n3.toString();
     }
-    console.log(mensaje)
     return mensaje;
 }
 function calculoIBANEspanya(codCuenta) 

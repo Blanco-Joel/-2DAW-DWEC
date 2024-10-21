@@ -234,10 +234,10 @@ function codigosControl(codBanco,codSucursal,codCuenta)
              (parseInt(codCuenta[9]) * 6);   
                     
         n1 = 11 - ((n1 + n2) % 11);
-        n1 = n1 == 10 ? 0 : n1 == 11 ? 1 : n1;
+        n1 = n1 == 10 ? 1 : n1 == 11 ? 0 : n1;
         n3 = 11 - (n3 % 11);
         console.log(n3.toString());
-        n3 = n3 == 10 ? 0 : n3 == 11 ? 1 : n3;
+        n3 = n3 == 10 ? 1 : n3 == 11 ? 0 : n3;
         mensaje = n1.toString()+n3.toString();
     }
     return mensaje;

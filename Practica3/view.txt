@@ -30,7 +30,7 @@ Expresiones regulares
 	 \0 --> carácter nulo
 	 
 	 ^ --> principio
-	 $ -> final
+	 $ --> final
 	 
 	 ? --> 0 ó 1 vez
 	 * --> de 0 a n veces

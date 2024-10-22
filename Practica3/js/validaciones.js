@@ -54,6 +54,7 @@ function esNif(cadena)
     let codigoCorrecto = 1;
     let indice = 0 ,indice2 = 0,  resultado = 0;
     let laCadena = cadena.trim().toLowerCase();
+    let regNif = /^([0-9]{1}|[xyzlkm]{1})\d{7}[a-z]{1}$/i;
     let caraPrimPos = ["x", "z", "y", "l", "k", "m"];
     let caraControl  = ["t", "r", "w", "a",
                         "g", "m", "y", "f",
@@ -65,12 +66,10 @@ function esNif(cadena)
     
     if ((laCadena.length <= 8 && laCadena.length >= 6) && laCadena >= "100000") /*COMPRUEBA SI TIENE LAS CARÁCTERISTICAS DE DNI*/
         codigoCorrecto=3;
-    else if (laCadena.length != 9) /*COMPRUEBA SI TIENE LOS 9 CARACTERES DE UN NIF*/
+    else if (!regNif.test(laCadena)) /*COMPRUEBA SI TIENE LOS 9 CARACTERES DE UN NIF*/
         codigoCorrecto = 0;
     else
     {
-        if (caraPrimPos.includes(laCadena.at(indice))) 
-        {
             switch (laCadena.at(indice)) /*INICIO PARA LAS LETRAS "Z" E "Y"  */
             {
                 case "y":
@@ -83,14 +82,6 @@ function esNif(cadena)
                     indice = indice2 +=1;
                     break;
             }
-        } 
-        while (valido && indice < laCadena.length-1){ /*COMPROBACIÓN DE NÚMEROS*/
-
-            if (laCadena.at(indice) < "0" || laCadena.at(indice) > "9")
-                valido=false;
-            indice+=1;
-        }
-        
         if (valido) {
 
             let numerosCadena = parseInt(laCadena.substring(indice2,laCadena.length-1));
@@ -290,43 +281,18 @@ function comprobarIban (iban)
 
 function comNombre(nombre)
 {
-    let indice = 0;
-    let valido = true;
     let mensaje = "";
-    if (nombre.length == 0)
-        valido = false;
-    else{
-        valido = comprobarLetraCar(nombre.at(indice),"")
-        indice += 1;
-
-        while (valido &&  indice < nombre.length-1)
-        {
-
-            valido = comprobarLetDigCar(nombre.at(indice),"ºª-.");
-            indice += 1;
-
-        }
-        valido = comprobarLetDigCar(nombre.at(nombre.length-1),".");
-    }
-
-    if (!valido)
+    let regNombre = /^[a-z]{1}[0-9a-záéíóúüñ\ª\º\-\.]{1,}[a-záéíóúüñ0-9\.]{1}$/i;
+    if (!regNombre.test(nombre))
         mensaje = "El dato de Razón Social/Apellidos y Nombre no es correcto.\n";
     return mensaje;
 }
 
 function comCodigoEmpresa(codEmpresa)
 {
-    let indice = 0;
-    let valido = true;
     let mensaje = "";
-    
-    while (valido &&  indice < nombre.length)
-    {
-        valido = comprobarLetDigCar(nombre.at(indice),"a");
-        indice += 1;
-    }
-
-    if (!valido || codEmpresa.length > 10 || codEmpresa.length < 5)
+    let regCodEmpresa = new RegExp("[0-9a-z]{5,10}","i");
+    if (!regCodEmpresa.test(codEmpresa))
         mensaje = "El dato de Código de la empresa no es correcto.\n";
     return mensaje;
 }

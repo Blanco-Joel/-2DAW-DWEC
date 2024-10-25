@@ -55,6 +55,7 @@ function esNif(cadena)
     let indice = 0 ,indice2 = 0,  resultado = 0;
     let laCadena = cadena.trim().toLowerCase();
     let regNif = /^([0-9]{1}|[xyzlkm]{1})\d{7}[a-z]{1}$/i;
+    let regDni = /^[1-9]{1}\d{5,7}$/;
     let caraPrimPos = ["x", "z", "y", "l", "k", "m"];
     let caraControl  = ["t", "r", "w", "a",
                         "g", "m", "y", "f",
@@ -64,36 +65,24 @@ function esNif(cadena)
                         "c", "k", "e"];
 
     
-    if ((laCadena.length <= 8 && laCadena.length >= 6) && laCadena >= "100000") /*COMPRUEBA SI TIENE LAS CARÁCTERISTICAS DE DNI*/
+    if (regDni.test(laCadena)) /*COMPRUEBA SI TIENE LAS CARÁCTERISTICAS DE DNI*/
         codigoCorrecto=3;
     else if (!regNif.test(laCadena)) /*COMPRUEBA SI TIENE LOS 9 CARACTERES DE UN NIF*/
         codigoCorrecto = 0;
     else
     {
-            switch (laCadena.at(indice)) /*INICIO PARA LAS LETRAS "Z" E "Y"  */
-            {
-                case "y":
-                    laCadena =laCadena.replace("y", "1");
-                break;
-                case "z":
-                    laCadena = laCadena.replace("2", "z");
-                break;
-                default:
-                    indice = indice2 +=1;
-                    break;
-            }
-        if (valido) {
+        laCadena = (laCadena.at(indice) == "y") ? laCadena.replace("y", "1") :
+                   (laCadena.at(indice) == "z") ? laCadena.replace("2", "z") : 
+                   laCadena;
+        indice = (!isNaN(laCadena.at(indice))) ? indice : indice+1;
 
-            let numerosCadena = parseInt(laCadena.substring(indice2,laCadena.length-1));
-            resultado = numerosCadena%23;
-            
-            if (laCadena.at(indice) != caraControl[resultado]) /*COMPROBACIÓN DE CARÁCTER DE CONTROL*/
-                codigoCorrecto = 2;
-            else
-                codigoCorrecto = 1;
-        }
-        else
+        let numerosCadena = parseInt(laCadena.substring(indice,laCadena.length-1));
+        resultado = numerosCadena%23;
+        
+        if (laCadena.at(laCadena.length-1) != caraControl[resultado]) /*COMPROBACIÓN DE CARÁCTER DE CONTROL*/
             codigoCorrecto = 2;
+        else
+            codigoCorrecto = 1;
     }
     return codigoCorrecto ; 
 }
@@ -197,8 +186,9 @@ function codigosControl(codBanco,codSucursal,codCuenta)
     let n1;
     let n2;
     let n3;
-    if(codBanco.length != 4 || codSucursal.length != 4 || codCuenta.length != 10 ||
-       isNaN(codBanco) ||  isNaN(codSucursal) || isNaN(codCuenta))
+    let regCuatro = new RegExp("\\d{4}");
+    let regDiez = new RegExp("\\d{10}");
+    if(!regCuatro.test(codBanco) || !regCuatro.test(codSucursal) || !regDiez.test(codCuenta))
     {
         mensaje = "El código de control introducido no es válido.";
     }else{
@@ -227,7 +217,6 @@ function codigosControl(codBanco,codSucursal,codCuenta)
         n1 = 11 - ((n1 + n2) % 11);
         n1 = n1 == 10 ? 1 : n1 == 11 ? 0 : n1;
         n3 = 11 - (n3 % 11);
-        console.log(n3.toString());
         n3 = n3 == 10 ? 1 : n3 == 11 ? 0 : n3;
         mensaje = n1.toString()+n3.toString();
     }
@@ -238,6 +227,7 @@ function calculoIBANEspanya(codCuenta)
     let control;
     let codCuentaNumerico;
     let iban = "";
+    let regIban = /^[a-z]$/;
     if (codCuenta.length != 20 || isNaN(codCuenta)) {
         iban = "El código introducido no es válido.\n";
     }else
@@ -334,89 +324,39 @@ function comTipoPersona()
 
 function comDireccion(direccion)
 {
-    let indice = 0;
-    let valido = true;
     let mensaje = "";
-    if (direccion.length == 0)
-        valido = false;
-    else{
-        valido = comprobarLetraCar(direccion.at(indice),"a")
-        indice += 1;
-
-        while (valido &&  indice < direccion.length-1)
-        {
-            valido = comprobarLetDigCar(direccion.at(indice),"ºª-/.");
-            indice += 1;
-        }
-        valido = comprobarLetDigCar(direccion.at(direccion.length-1),"a");
-    }
-    if (!valido)
+    let regDire = new RegExp("[a-záéíóúüñ]{1}[a-záéíóúüñ\\º\\ª\\-\\/\\.0-9]{1,}[a-záéíóúüñ0-9]{1}",i)
+    if (!regDire.test(direccion))
         mensaje = "El dato de la dirección no es correcta.\n";
     return mensaje;
 }
 
 function comLocalidad(localidad)
 {
-    let indice = 0;
-    let valido = true;
     let mensaje = "";
-    if (localidad.length == 0)
-        valido = false;
-    else{
-        valido = comprobarLetraCar(localidad.at(indice),"")
-        indice += 1;
-        while (valido &&  indice < localidad.length)
-        {
-            valido = comprobarLetDigCar(localidad.at(indice)," ");
-            indice += 1;
-        }
-    }
-    if (!valido)
+    let regLoc = /^[a-záéíóúüñ]{1}[a-záéíóúüñ\ ]{1,}[a-záéíóúüñ]{1}$/; 
+    if (!regLoc.test(localidad))
         mensaje = "El dato de la localidad no es correcto.\n";
     return mensaje;
 }
 
 function comTelefono(telefono) 
 {
-    let valido = true;
-    let mensaje= "";
-    let indice = 0;
-    telefono = telefono.toString();
-    while (valido &&  indice < telefono.length)
-    {
-        valido = comprobarDig(telefono.at(indice));
-        indice += 1;
-    }    
-    if (telefono.length != 9) 
-        valido = false;
-    if (telefono.at(0) != "9" && telefono.at(0) != "6" && telefono.at(0) != "7" ) 
-        valido = false;
-
-    if (!valido)
+    let mensaje = "";
+    let regTel = new RegExp("[9876]{1}\\d{8}")
+    if (!regTel.test(telefono))
         mensaje = "El dato del número de telefono no es correcto.\n";
     return mensaje;
 }
 
 function comCodPostal(codPostal)
 {
-    let indice = 0;
-    let valido = true; 
     let mensaje = "";
-    if (codPostal.length == 0)
-        valido = false;
-    else{
-        while (valido && indice < codPostal.length) 
-        {
-            valido = comprobarDig(codPostal.at(indice));
-            indice += 1;
-        }
-        if (parseInt(codPostal) < 1000 ||parseInt(codPostal) > 52999)
-            valido = false;
-        if (valido) 
-            codPostalProvincia(codPostal);
-    }
-    if (!valido)
+    let regCod = /^((0?[1-9])|([1-4]\d)|(5[0-2]))\d{3}$/; 
+    if (!regCod.test(codPostal))
         mensaje = "El dato del codigo postal no es correcto.\n";
+    else
+        codPostalProvincia(codPostal);
     return mensaje;
 }
 
@@ -445,7 +385,8 @@ function codPostalProvincia(codPostal)
 function comCodControl(codBanco,codOficina,codControl,numCuenta)
 {
     let mensaje= "";
-    if (codigosControl(codBanco,codOficina,numCuenta) != codControl) 
+    let regDos = new RegExp("\\d{2}");
+    if (!regDos.test(codControl) || codigosControl(codBanco,codOficina,numCuenta) != codControl) 
         mensaje = "El dato del código de control no es correcto.\n"; 
     
     return mensaje;

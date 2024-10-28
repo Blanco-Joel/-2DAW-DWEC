@@ -513,38 +513,3 @@ function comTipoEmpresa()
     return mensaje;
 }
 
-/*******COMPROBACIONES EXHAUSTIVAS**********************************************************************************************************************/
-
-function comprobarLetraCar(caracter,otros) 
-{
-    let valido = true;
-
-    if (caracter < "a" || caracter > "z") 
-        if (!otros.includes(caracter))
-            valido=false; 
-    return valido;     
-}
-
-function comprobarDig(caracter) 
-{
-    let valido = true;
-    if (caracter < "0" || caracter > "9" ) 
-        valido=false; 
-    return valido;     
-}
-function digitoNat(numero)
-{
-    let valido = true;
-    if (parseInt(numero) < 0)
-        valido = false;
-    return valido;
-}
-function comprobarLetDigCar(caracter,otros) 
-{
-    let valido = true;
-    if (caracter < "a" || caracter > "z")
-        if (! otros.includes(caracter))
-            if ( caracter < "0" || caracter > "9" ) 
-                valido=false; 
-    return valido;     
-}

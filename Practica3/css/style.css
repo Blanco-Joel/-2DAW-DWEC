@@ -8,3 +8,7 @@ body label,body input
 {
     margin: 0.2vw;
 }
+.errores
+{
+    display:none; 
+}

@@ -6,6 +6,7 @@
     <meta name="author" content="Joel" />
     <link href="./css/style.css" rel="stylesheet" type="text/css" />
     <script src="./js/validaciones.js" type="text/javascript"> </script>
+    <script src="./js/comprobar.js" type="text/javascript"> </script>
 </head>
 <body>
     <header></header>
@@ -16,36 +17,37 @@
                 <div>
                     <h1>Formulario de recogida de datos de la empresa</h1>
                     <form method="post" name="formulario">
-                        <label for="nombre">Razón Social/Apellidos y Nombre </label><input type="text" id="nombre" name="nombre"><br>
-                        <label for="codEmpresa">Código de la empresa </label><input type="text" id="codEmpresa" name="codEmpresa"><br>
-                        <label for="cifNif">Cif/Nif de la empresa </label><input type="text" name="cifNif" id="cifNif"><br>
+                        <label for="nombre">Razón Social/Apellidos y Nombre </label><input type="text" id="nombre" name="nombre"><input type="text" class="errores" name="errorNombre" readonly><br>
+                        <label for="codEmpresa">Código de la empresa </label><input type="text" id="codEmpresa" name="codEmpresa"><input type="text" class="errores" name="errorCodEmpresa" readonly><br>
+                        <label for="cifNif">Cif/Nif de la empresa </label><input type="text" name="cifNif" id="cifNif"><input type="text" class="errores" name="errorCifNif" readonly><br>
                         <fieldset>
                             <legend>Tipo de persona</legend>
                             <input type="radio" name="tipoPersona" value="Juridica"><label for="Juridica">Juridica</label>
                             <input type="radio" name="tipoPersona" value="Fisica"><label for="Fisica">Fisica</label>
                         </fieldset>
+                        <input type="text" class="errores" name="errorTipoPersona" readonly>
                         <fieldset>
                             <legend>Domicilio Social/Particular </legend>
-                            <label for="direccion">Dirección </label><input type="text" id="direccion" name="direccion">
-                            <label for="telefono">Telefono </label><input type="text" id="telefono" name="telefono">
+                            <label for="direccion">Dirección </label><input type="text" id="direccion" name="direccion"><input type="text" class="errores" name="errorDireccion" readonly>
+                            <label for="telefono">Telefono </label><input type="text" id="telefono" name="telefono"><input type="text" class="errores" name="errorTelefono" readonly>
                             <br>
-                            <label for="localidad">Localidad </label><input type="text" id="localidad" name="localidad">
-                            <label for="codPostal">cod postal </label><input type="text" id="codPostal" name="codPostal">
+                            <label for="localidad">Localidad </label><input type="text" id="localidad" name="localidad"><input type="text" class="errores" name="errorLocalidad" readonly>
+                            <label for="codPostal">cod postal </label><input type="text" id="codPostal" name="codPostal" oninput="comCodPostal();"><input type="text" class="errores" name="errorCodPostal" readonly>
                             <br>
                             <label for="provincia">Provincia </label><input type="text" id="provincia" name="provincia" readonly>
                         </fieldset>
                         <fieldset>
                             <legend>Datos Bancarios</legend>
-                            <label for="codBanco">Código del banco </label><input type="text" id="codBanco" name="codBanco"><br>
-                            <label for="codOficina">Código oficina </label><input type="text" id="codOficina" name="codOficina"><br>
-                            <label for="codControl">Código Control </label><input type="text" id="codControl" name="codControl"><br>
-                            <label for="numCuenta">Numero de cuenta </label><input type="text" id="numCuenta" name="numCuenta"><br>
-                            <label for="iban">IBAN </label><input type="text" id="iban" name="iban"><br>
+                            <label for="codBanco">Código del banco </label><input type="text" id="codBanco" name="codBanco"><input type="text" class="errores" name="errorCodBanco" readonly><br>
+                            <label for="codOficina">Código oficina </label><input type="text" id="codOficina" name="codOficina"><input type="text" class="errores" name="errorCodOficina" readonly><br>
+                            <label for="codControl">Código Control </label><input type="text" id="codControl" name="codControl"><input type="text" class="errores" name="errorCodControl" readonly><br>
+                            <label for="numCuenta">Numero de cuenta </label><input type="text" id="numCuenta" name="numCuenta"><input type="text" class="errores" name="errorNumCuenta" readonly><br>
+                            <label for="iban">IBAN </label><input type="text" id="iban" name="iban"><input type="text" class="errores" name="errorIban" readonly><br>
                         </fieldset>
                         <br><br>
-                        <label for="fecha">Fecha de Constitución de la Empresa </label><input type="text" id="fecha" name="fecha"><br>
-                        <label for="numTrab">Número de Trabajadores de la Empresa </label><input type="text" id="numTrab" name="numTrab"><br>
-                        <label for="numFab">Número de Fabricas de la Empresa </label><input type="text" id="numFab" name="numFab"><br>
+                        <label for="fecha">Fecha de Constitución de la Empresa </label><input type="text" id="fecha" name="fecha"><input type="text" class="errores" name="errorFecha" readonly><br>
+                        <label for="numTrab">Número de Trabajadores de la Empresa </label><input type="text" id="numTrab" name="numTrab"><input type="text" class="errores" name="errorNumTrab" readonly><br>
+                        <label for="numFab">Número de Fabricas de la Empresa </label><input type="text" id="numFab" name="numFab"><input type="text" class="errores" name="errorNumFab" readonly><br>
                         <br>
 
                         <label for="comunidades">Comunidades en las que hay empresas</label>
@@ -68,7 +70,8 @@
                             <option value="pais_vasco">País Vasco</option>
                             <option value="valencia">Comunidad Valenciana</option>
                         </select>
-                        <br><br>
+                        <input type="text" class="errores" name="errorComunidad" readonly><br>
+                        <br>
 
                         <fieldset>
                             <legend>Sector/es Económicos</legend>
@@ -86,6 +89,7 @@
                             <input type="checkbox" name="secEcom" id="Ganaderia"><label for="Ganaderia">Ganaderia</label>
                             <input type="checkbox" name="secEcom" id="Otros"><label for="Otros">Otros</label>
                         </fieldset>
+                        <input type="text" class="errores" name="errorSector" readonly><br>
                         <br>
 
                         <fieldset>
@@ -97,6 +101,8 @@
                             <input type="radio" name="tipoEmpresa" value="Autónomo"><label for="Autónomo"> Autónomo  </label>
                             <input type="radio" name="tipoEmpresa" value="Otra"><label for="Otra"> Otra  </label>
                         </fieldset>
+                        <input type="text" class="errores" name="errorTipoEmpresa" readonly><br>
+
                         <br>
                         <input type="button" value="Validar" name="boton">
                         <input type="reset" value="Limpiar">

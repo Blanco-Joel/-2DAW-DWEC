@@ -164,7 +164,7 @@ function calculoIBANEspanya(codCuenta)
     let control;
     let codCuentaNumerico;
     let iban = "";
-    let regCodCuenta = /^\d {20}$/
+    let regCodCuenta = /^\d{20}$/
     if (!regCodCuenta.test(codCuenta)) {
         iban = "El código introducido no es válido.\n";
     }else
@@ -174,6 +174,7 @@ function calculoIBANEspanya(codCuenta)
         control = (control < 10) ? ("0" + control.toString()) : control.toString() ; 
         iban = "ES" + control + codCuenta;
     }    
+    console.log(iban);
 
     return iban; 
 }

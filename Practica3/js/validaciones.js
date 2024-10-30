@@ -174,7 +174,6 @@ function calculoIBANEspanya(codCuenta)
         control = (control < 10) ? ("0" + control.toString()) : control.toString() ; 
         iban = "ES" + control + codCuenta;
     }    
-    console.log(iban);
 
     return iban; 
 }

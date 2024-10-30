@@ -19,7 +19,7 @@ function comprobar(){
     let iban                         = document.formulario.iban.value.toLowerCase().trim().split(' ').join('');
     let fecha                        = document.formulario.fecha.value.toLowerCase().trim();
     let numTrab                      = document.formulario.numTrab.value.toLowerCase().trim();
-    let numFab                       = document.formulario.numTrab.value.toLowerCase().trim();
+    let numFab                       = document.formulario.numFab.value.toLowerCase().trim();
     
     let ibanAux = codBanco + codOficina + codControl + numCuenta; 
     
@@ -112,7 +112,7 @@ function comTipoPersona()
 function comDireccion(direccion)
 {
     let mensaje = "";
-    let regDire = new RegExp("^[a-záéíóúüñ]{1}[a-záéíóúüñ\\º\\ª\\-\\/\\.0-9]{1,}[a-záéíóúüñ0-9]{1}$","i")
+    let regDire = new RegExp("^[a-záéíóúüñ]{1}[\\da-záéíóúüñºª\\-\\/\\.]*[a-záéíóúüñ\\d]{1}$","i");   
     if (!regDire.test(direccion))
         mensaje = "El dato de la dirección no es correcta.\n";
     return mensaje;
@@ -235,7 +235,7 @@ function comNumTrab(numTrab)
 function comNumFab(numFab)
 {
     let mensaje = "";
-    let regNumFab = new RegExp("^0*([2-9]{1}|[1-9]\\d{,3})$");
+    let regNumFab = new RegExp("^(0*?[2-9]|[1-9]\\d{1,3})$");
     if (!regNumFab.test(numFab)) 
         mensaje = "El dato del número de Fabricas no es correcto.\n";
     return mensaje;

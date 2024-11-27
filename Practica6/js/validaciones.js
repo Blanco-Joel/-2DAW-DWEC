@@ -1,13 +1,11 @@
 
 function esNif(cadena) 
 {
-    let valido = true;
     let codigoCorrecto = 1;
     let indice = 0 ,indice2 = 0,  resultado = 0;
     let laCadena = cadena.trim().toLowerCase();
     let regNif = /^([0-9]{1}|[xyzlkm]{1})\d{7}[a-z]{1}$/i;
     let regDni = /^[1-9]{1}\d{5,7}$/;
-    let caraPrimPos = ["x", "z", "y", "l", "k", "m"];
     let caraControl  = ["t", "r", "w", "a",
                         "g", "m", "y", "f",
                         "p", "d", "x", "b",
@@ -104,18 +102,6 @@ function NIFCIF(cadena)
     return codigo;
 }
 
-function separarCodigo(codigo) 
-{
-    let valido = "";
-    if (codigo.length == 18) {
-        codigo1 = codigo.substr(0,4);
-        codigo2 = codigo.substr(4,4);
-        codigo3 = codigo.substr(8,10);
-        valido = codigosControl(codigo1,codigo2,codigo3);
-    }else
-        valido = "El código introducido no es válido.";
-    return valido;
-}
 
 function codigosControl(codBanco,codSucursal,codCuenta)
 {

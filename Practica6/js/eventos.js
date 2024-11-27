@@ -5,21 +5,21 @@ else if (document.attachEvent)
 
 function inicio()
 {
-    let nombre                       = document.getElementById("nombre");
-    let codEmpresa                   = document.getElementById("codEmpresa");
-    let cifNif                       = document.getElementById("cifNif");
-    let direccion                    = document.getElementById("direccion");
-    let telefono                     = document.getElementById("telefono");
-    let localidad                    = document.getElementById("localidad");
-    let codPostal                    = document.getElementById("codPostal");
-    let codBanco                     = document.getElementById("codBanco");
-    let codOficina                   = document.getElementById("codOficina");
-    let codControl                   = document.getElementById("codControl");
-    let numCuenta                    = document.getElementById("numCuenta");
-    let iban                         = document.getElementById("iban");
-    let fecha                        = document.getElementById("fecha");
-    let numTrab                      = document.getElementById("numTrab");
-    let numFab                       = document.getElementById("numFab");
+    let nombre         = document.getElementById("nombre");
+    let codEmpresa     = document.getElementById("codEmpresa");
+    let cifNif         = document.getElementById("cifNif");
+    let direccion      = document.getElementById("direccion");
+    let telefono       = document.getElementById("telefono");
+    let localidad      = document.getElementById("localidad");
+    let codPostal      = document.getElementById("codPostal");
+    let codBanco       = document.getElementById("codBanco");
+    let codOficina     = document.getElementById("codOficina");
+    let codControl     = document.getElementById("codControl");
+    let numCuenta      = document.getElementById("numCuenta");
+    let iban           = document.getElementById("iban");
+    let fecha          = document.getElementById("fecha");
+    let numTrab        = document.getElementById("numTrab");
+    let numFab         = document.getElementById("numFab");
     
     if (document.addEventListener){
         nombre.addEventListener("focus", colores);
@@ -132,20 +132,17 @@ function noColores(event)
 }
 function eventoDigit(event)
 {
-    let enviar = true;
     let evento = event || window.event;
     let caracter = String.fromCharCode(evento.keyCode);
-    if (caracter < "0" || caracter > "9")
+    if (!/^\d/.test(caracter))
         evento.preventDefault();
 }
 
 function eventoLetrasEsp(event)
 {
-    let enviar = true;
     let evento = event || window.event;
     let caracter = String.fromCharCode(evento.keyCode);
-    if (caracter < "a" || caracter > "z")
-        if (caracter != " ") 
-            evento.preventDefault();
+    if (!/^[a-záéíóúü ]$/i.test(caracter))
+        evento.preventDefault();
 
 }

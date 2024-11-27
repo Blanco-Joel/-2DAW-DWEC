@@ -120,9 +120,15 @@ function comNIFCIF(cifNif)
 function comTipoPersona() 
 {
     let mensaje= "";
-    let tipoPersona = document.getElementByName("tipoPersona").value;
-    if(tipoPersona.length == 0)
+    let valido= true;
+    let tipoPersona = document.querySelectorAll("input[name=tipoPersona]");
+    for (let i = 0; i < tipoPersona.length; i++) 
+        if(tipoPersona[i].checked)
+            valido = false; 
+        
+    if (valido) 
         mensaje+="Debe seleccionar el tipo de persona.\n";
+        
     return mensaje;
 }
 
@@ -297,17 +303,20 @@ function comSector()
         if (sectores[i].checked) 
             cont += 1;
     
-    if(cont <1)
-        mensaje+="Debe seleccionar al menos un sector económico.\n";
+    if(cont != 1)
+        mensaje+="Debe seleccionar un sector económico.\n";
     return mensaje;
 }
 
 function comTipoEmpresa() 
 {
-    let mensaje= "123";
+    let mensaje= "";
+    let valido = true;
     let tipoEmpresa = document.querySelectorAll("input[name=tipoEmpresa]");
-    console.log(tipoEmpresa);
-    if(tipoEmpresa.length == 0)
+    for (let i = 0; i < tipoEmpresa.length; i++) 
+        if(tipoEmpresa[i].checked)
+            valido = false;
+    if (valido)
         mensaje+="Debe seleccionar el tipo de Empresa.\n";
     return mensaje;
 }

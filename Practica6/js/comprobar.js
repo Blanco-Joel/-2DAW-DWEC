@@ -1,60 +1,79 @@
-window.onload = inicio;
+if (document.addEventListener)
+    window.addEventListener("load",inicio)
+else if (document.attachEvent)
+    window.attachEvent("onload",inicio);
 
 function inicio()
 {
-    document.formulario.boton.onclick = comprobar;
+    let formulario = document.getElementById("formulario");  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let codPostal = document.getElementById("codPostal");
+    if (document.addEventListener){
+        formulario.addEventListener("submit", comprobar);
+        codPostal.addEventListener("input", comCodPostal);
+    }else if (document.attachEvent){
+        formulario.attachEvent("onsubmit", comprobar);
+        codPostal.attachEvent("oninput", comCodPostal);
+
+    }
 }
 
-function comprobar(){
-    let nombre                       = document.formulario.nombre.value.toLowerCase().trim();
-    let codEmpresa                   = document.formulario.codEmpresa.value.toLowerCase().trim();
-    let cifNif                       = document.formulario.cifNif.value.toLowerCase().trim();
-    let direccion                    = document.formulario.direccion.value.toLowerCase().trim();
-    let telefono                     = document.formulario.telefono.value.toLowerCase().trim();
-    let localidad                    = document.formulario.localidad.value.toLowerCase().trim();
-    let codBanco                     = document.formulario.codBanco.value.toLowerCase().trim();
-    let codOficina                   = document.formulario.codOficina.value.toLowerCase().trim();
-    let codControl                   = document.formulario.codControl.value.toLowerCase().trim();
-    let numCuenta                    = document.formulario.numCuenta.value.toLowerCase().trim();
-    let iban                         = document.formulario.iban.value.toLowerCase().trim().split(' ').join('');
-    let fecha                        = document.formulario.fecha.value.toLowerCase().trim();
-    let numTrab                      = document.formulario.numTrab.value.toLowerCase().trim();
-    let numFab                       = document.formulario.numFab.value.toLowerCase().trim();
+function comprobar(evento){
     
+    let nombre                       = document.getElementById("nombre").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let codEmpresa                   = document.getElementById("codEmpresa").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let cifNif                       = document.getElementById("cifNif").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let direccion                    = document.getElementById("direccion").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let telefono                     = document.getElementById("telefono").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let localidad                    = document.getElementById("localidad").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let codBanco                     = document.getElementById("codBanco").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let codOficina                   = document.getElementById("codOficina").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let codControl                   = document.getElementById("codControl").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let numCuenta                    = document.getElementById("numCuenta").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let iban                         = document.getElementById("iban").value.toLowerCase().trim().split(' ').join('');  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let fecha                        = document.getElementById("fecha").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let numTrab                      = document.getElementById("numTrab").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    let numFab                       = document.getElementById("numFab").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
     let ibanAux = codBanco + codOficina + codControl + numCuenta; 
     
+    let valido = true;
+    valido = errores(valido,comNombre(nombre),"errorNombre");
+    valido = errores(valido,comCodigoEmpresa(codEmpresa),"errorCodEmpresa");
+    valido = errores(valido,comNIFCIF(cifNif),"errorCifNif");
+    valido = errores(valido,comTipoPersona(),"errorTipoPersona");
+    valido = errores(valido,comDireccion(direccion),"errorDireccion");
+    valido = errores(valido,comLocalidad(localidad),"errorLocalidad");
+    valido = errores(valido,comCodPostal(codPostal),"errorCodPostal");
+    valido = errores(valido,comTelefono(telefono),"errorTelefono");
+    valido = errores(valido,comCodBanco(codBanco),"errorCodBanco");
+    valido = errores(valido,comCodOficina(codOficina),"errorCodOficina");
+    valido = errores(valido,comCodControl(codBanco,codOficina,codControl,numCuenta),"errorCodControl");
+    valido = errores(valido,comNumCuenta(numCuenta),"errorNumCuenta");
+    valido = errores(valido,comIbanCorrecto(iban,ibanAux),"errorIban");
+    valido = errores(valido,comFecha(fecha),"errorFecha");
+    valido = errores(valido,comNumTrab(numTrab),"errorNumTrab");
+    valido = errores(valido,comNumFab(numFab),"errorNumFab");
+    valido = errores(valido,comComunidad(),"errorComunidad");
+    valido = errores(valido,comSector(),"errorSector");
+    valido = errores(valido,comTipoEmpresa(),"errorTipoEmpresa");
 
-    errores(comNombre(nombre),"errorNombre");
-    errores(comCodigoEmpresa(codEmpresa),"errorCodEmpresa");
-    errores(comNIFCIF(cifNif),"errorCifNif");
-    errores(comTipoPersona(),"errorTipoPersona");
-    errores(comDireccion(direccion),"errorDireccion");
-    errores(comLocalidad(localidad),"errorLocalidad");
-    errores(comCodPostal(codPostal),"errorCodPostal");
-    errores(comTelefono(telefono),"errorTelefono");
-    errores(comCodBanco(codBanco),"errorCodBanco");
-    errores(comCodOficina(codOficina),"errorCodOficina");
-    errores(comCodControl(codBanco,codOficina,codControl,numCuenta),"errorCodControl");
-    errores(comNumCuenta(numCuenta),"errorNumCuenta");
-    errores(comIbanCorrecto(iban,ibanAux),"errorIban");
-    errores(comFecha(fecha),"errorFecha");
-    errores(comNumTrab(numTrab),"errorNumTrab");
-    errores(comNumFab(numFab),"errorNumFab");
-    errores(comComunidad(),"errorComunidad");
-    errores(comSector(),"errorSector");
-    errores(comTipoEmpresa(),"errorTipoEmpresa");
+    
+    if (!valido)
+        evento.preventDefault();
+
+    
 
 }
-function errores(mensaje,error)
+function errores(valido,mensaje,error)
 {
-    if (mensaje != "" ) {
-        document.formulario[error].style.display = 'inline';
-        document.formulario[error].style.width = (mensaje.length-7)+"ch";
-        document.formulario[error].value = mensaje;
-    }else
+    if (mensaje != "" ) 
     {
-        document.formulario[error].style.display = 'none';
-    }
+        document.getElementById(error).style.display = 'inline';  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+        document.getElementById(error).style.width = (mensaje.length-7)+"ch";  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+        document.getElementById(error).value = mensaje;
+        valido = false;  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    }else
+        document.getElementById(error).style.display = 'none';  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
+    return valido;
 }
 function comNombre(nombre)
 {
@@ -100,11 +119,9 @@ function comNIFCIF(cifNif)
 
 function comTipoPersona() 
 {
-    let valido=false;
     let mensaje= "";
-    for(let i=0;i <document.formulario.tipoPersona.length;i++)
-        valido = valido ||document.formulario.tipoPersona[i].checked;
-    if(!valido)
+    let tipoPersona = document.getElementByName("tipoPersona").value;
+    if(tipoPersona.length == 0)
         mensaje+="Debe seleccionar el tipo de persona.\n";
     return mensaje;
 }
@@ -139,7 +156,7 @@ function comTelefono(telefono)
 function comCodPostal()
 {
     let mensaje = "";
-    let codPostal = document.formulario.codPostal.value.toLowerCase().trim();
+    let codPostal = document.getElementById("codPostal").value.toLowerCase().trim();  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
 
     let regCod = /^((0?[1-9])|([1-4]\d)|(5[0-2]))\d{3}$/; 
     if (!regCod.test(codPostal))
@@ -165,9 +182,9 @@ function codPostalProvincia(codPostal)
                       "Toledo",         "Valencia",               "Valladolid",         "Bizkaia",
                       "Zamora",         "Zaragoza",               "Ceuta",              "Melilla"];
     if (codPostal.length == 4) 
-        document.formulario.provincia.value = provincias[parseInt(codPostal.substring(0,1))-1];
+        document.getElementById("provincia").value = provincias[parseInt(codPostal.substring(0,1))-1];  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
     else 
-        document.formulario.provincia.value = provincias[parseInt(codPostal.substring(0,2))-1];
+        document.getElementById("provincia").value = provincias[parseInt(codPostal.substring(0,2))-1];  //CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR CAMBIAR 
 }
 function comCodBanco(codBanco)
 {
@@ -261,8 +278,7 @@ function comComunidad()
 {
     let mensaje = "";
     let cont = 0;
-    let opciones = formulario.comunidades.options; 
-    
+    let opciones = document.getElementById("comunidades").children; 
     for (let i = 0; i < opciones.length; i++) 
         if (opciones[i].selected) 
             cont += 1;
@@ -274,20 +290,13 @@ function comComunidad()
 }
 function comSector()
 {
-    let cont = 0;
     let mensaje = "";
-    if (document.formulario.Alimentacion.checked) cont += 1;
-    if (document.formulario.Informatica.checked) cont += 1;
-    if (document.formulario.Comercio.checked) cont += 1;
-    if (document.formulario.Construccion.checked) cont += 1;
-    if (document.formulario.Hosteleria.checked) cont += 1;
-    if (document.formulario.Automocion.checked) cont += 1;
-    if (document.formulario.Calzado.checked) cont += 1;
-    if (document.formulario.Turismo.checked) cont += 1;
-    if (document.formulario.Agricultura.checked) cont += 1;
-    if (document.formulario.Ganaderia.checked) cont += 1;
-    if (document.formulario.Otros.checked) cont += 1;
-
+    let cont = 0;
+    let sectores = document.querySelectorAll("input[name=secEcom]");
+    for (let i = 0; i < sectores.length; i++) 
+        if (sectores[i].checked) 
+            cont += 1;
+    
     if(cont <1)
         mensaje+="Debe seleccionar al menos un sector económico.\n";
     return mensaje;
@@ -295,11 +304,10 @@ function comSector()
 
 function comTipoEmpresa() 
 {
-    let valido=false;
-    let mensaje= "";
-    for(let i=0;i <document.formulario.tipoEmpresa.length;i++)
-        valido = valido ||document.formulario.tipoEmpresa[i].checked;
-    if(!valido)
+    let mensaje= "123";
+    let tipoEmpresa = document.querySelectorAll("input[name=tipoEmpresa]");
+    console.log(tipoEmpresa);
+    if(tipoEmpresa.length == 0)
         mensaje+="Debe seleccionar el tipo de Empresa.\n";
     return mensaje;
 }

@@ -283,13 +283,9 @@ function comFax(fax)
 function comComunidad()
 {
     let mensaje = "";
-    let cont = 0;
-    let opciones = document.getElementById("comunidades").children; 
-    for (let i = 0; i < opciones.length; i++) 
-        if (opciones[i].selected) 
-            cont += 1;
+    let opciones = document.getElementById("comunidades").selectedOptions;
         
-    if (cont < 2 )
+    if (opciones < 2 )
         mensaje += "Debe seleccionar al menos dos comunidades.\n"; 
 
     return mensaje;

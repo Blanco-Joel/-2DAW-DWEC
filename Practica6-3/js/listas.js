@@ -6,7 +6,8 @@ function inicio(){
     $("#annadir_def").on("click",annadirDef);
     $("#quitar_def").on("click",quitarDef);
     $("#annadir_localidad").on("click",annadirLoc);
-    $("#annadir_coche").on("click",annadirCoc);
+    $("#annadir_coche").on("click",annadirCoc); 
+    $("#quitar_coche").on("click",quitarCoc);
     $("#comunidad").on("click",comunidades);
 }
 function annadirDef()
@@ -129,6 +130,37 @@ function annadirCoc() {
             padre.append(`<tr><td>${marca}</td><td>${modelo}</td><td>${precio}</td></tr>`);
         }
     }
+}
+function quitarCoc()
+{
+    let marca = $("#marca").val().trim();
+    let modelo = $("#modelo").val().trim();
+	if (marca.length > 0 && modelo.length > 0) 
+    {
+        let tabla = $("#coches");
+        let padre = tabla.find("tbody");
+        let todos = padre.find("tr");
+        let indice = todos.length;
+		while (indice >= 0)
+        {
+            let celdas = todos.eq(indice).children("td");
+            if (celdas.eq(0).text().toUpperCase() == marca.toUpperCase() &&
+                celdas.eq(1).text().toUpperCase() == modelo.toUpperCase())
+            {
+                let indice2 = celdas.length;
+                while (indice2 >= 0)
+                {
+                    celdas.eq(indice2-1).remove();
+                    indice2 -= 1;
+                }
+                
+                todos.eq(indice).remove();
+            }
+			indice -= 1;
+		}
+
+		
+	}
 }
 
 function comunidades() {

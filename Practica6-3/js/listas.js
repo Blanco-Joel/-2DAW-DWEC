@@ -11,8 +11,8 @@ function inicio(){
 }
 function annadirDef()
 {
-    let palabra  = $("#palabra").val(); 
-    let concepto = $("#concepto").val();
+    let palabra  = $("#palabra").val().trim(); 
+    let concepto = $("#concepto").val().trim();
 	if (palabra.length > 0 && concepto.length > 0 ) 
     {
 		let lista= $("#def");
@@ -46,8 +46,8 @@ function annadirDef()
 }
 function quitarDef()
 {
-    let palabra  = $("#palabra").val(); 
-    let concepto = $("#concepto").val();
+    let palabra  = $("#palabra").val().trim(); 
+    let concepto = $("#concepto").val().trim();
 	if (palabra.length > 0 && concepto.length > 0 ) 
     {
 		let lista= $("#def");
@@ -74,68 +74,63 @@ function quitarDef()
 }
 
 function annadirLoc(){
-	let localidad=document.getElementById("localidad").value.trim();
+	let localidad=$("#localidad").val().trim();
 	if (localidad.length > 0) {
-		let lista=document.getElementById("localidades");
-		let todos=lista.getElementsByTagName("li");
+		let lista=$("#localidades");
+		let todos=lista.find("li");
 		let inexistente=true;
 		let indice=0;
 		while (inexistente && indice < todos.length){
-			if (todos.item(indice).textContent == localidad)
+            if (todos.eq(indice).text() == localidad)
 				inexistente=false
-			else if (localidad.toUpperCase() < todos.item(indice).textContent.toUpperCase()){
-				inexistente=false;
-				let nuevo=document.createElement("li");
-				let contenido=document.createTextNode(localidad);
-				nuevo.appendChild(contenido);
-				lista.insertBefore(nuevo, todos.item(indice));
-				//todos.item(indice).before(nuevo);
+            else if (localidad.toUpperCase() < todos.eq(indice).text().toUpperCase()){
+                inexistente=false;
+                todos.eq(indice).before(`<li>${localidad}</li>`);
 			}
 			indice+=1;
 		}
 		if (inexistente){
-			let nuevo=document.createElement("li");
-			let contenido=document.createTextNode(localidad);
-			nuevo.appendChild(contenido);
-			lista.append(nuevo);
+			lista.append(`<li>${localidad}</li>`);
 		}
 	}
 }
 
-function annadirCoc(){
-	let marca=document.getElementById("marca").value.trim();
-	let modelo=document.getElementById("modelo").value.trim();
-	let precio=document.getElementById("precio").value.trim();
-	if (marca.length > 0 && modelo.length > 0 && precio.length > 0 ) {
-		let tabla=document.getElementById("coches");
-		let padre=tabla.querySelector("tbody");
-		let todos=padre.getElementsByTagName("tr");
-		let indice=0;
-		let inexis=true;
-		while (inexis && indice < todos.length){
-			let celdas=todos.item(indice).getElementsByTagName("td");
-			if (celdas[0].textContent == marca && celdas[1].textContent == modelo)
-				inexis=false;
-			indice+=1;
-		}
-		if (inexis) {
-			let fila=document.createElement("tr");
-			let col1=document.createElement("td");
-			let col2=document.createElement("td");
-			let col3=document.createElement("td");
-			let con1=document.createTextNode(marca);
-			let con2=document.createTextNode(modelo);
-			let con3=document.createTextNode(precio);
-			col1.append(con1);
-			col2.append(con2);
-			col3.append(con3);
-			fila.appendChild(col1);
-			fila.appendChild(col2);
-			fila.appendChild(col3);
-			padre.append(fila);
-		}
-	}
+function annadirCoc() {
+    let marca = $("#marca").val().trim();
+    let modelo = $("#modelo").val().trim();
+    let precio = $("#precio").val().trim();
+    
+    if (marca.length > 0 && modelo.length > 0 && precio.length > 0) {
+        let tabla = $("#coches");
+        let padre = tabla.find("tbody");
+        let todos = padre.find("tr");
+        let indice = 0;
+        let inexistente = true;
+        
+        while (inexistente && indice < todos.length) {
+            let celdas = todos.eq(indice).children("td");
+            
+            if (celdas.eq(0).text().toUpperCase() == marca.toUpperCase() &&
+                celdas.eq(1).text().toUpperCase() == modelo.toUpperCase())
+            
+                inexistente = false;
+            else if ((celdas.eq(0).text().toUpperCase() < marca.toUpperCase()) || 
+                     (celdas.eq(0).text().toUpperCase() == marca.toUpperCase() && 
+                      celdas.eq(1).text().toUpperCase() < modelo.toUpperCase()))
+            {
+                todos.eq(indice).before(`<tr><td>${marca}</td><td>${modelo}</td><td>${precio}</td></tr>`);
+                inexistente = false;
+            }
+            
+            indice += 1;
+        }
+        
+        if (inexistente) {
+            padre.append(`<tr><td>${marca}</td><td>${modelo}</td><td>${precio}</td></tr>`);
+        }
+    }
 }
+
 function comunidades() {
     let comunidadesYProvincias = [
         ["Andalucia", ["Almería", "Cádiz", "Córdoba", "Granada", "Huelva", "Jaén", "Málaga", "Sevilla"]],

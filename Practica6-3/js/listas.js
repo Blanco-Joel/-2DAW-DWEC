@@ -1,14 +1,18 @@
 $(window).on("load",inicio);
 
 
-function inicio(){
+function inicio()
+{
     
     $("#annadir_def").on("click",annadirDef);
     $("#quitar_def").on("click",quitarDef);
     $("#annadir_localidad").on("click",annadirLoc);
     $("#annadir_coche").on("click",annadirCoc); 
     $("#quitar_coche").on("click",quitarCoc);
-    $("#comunidad").on("click",comunidades);
+    $("#comunidad").on("change",comunidades);
+    $("#cambiar_colores").on("click",colores);
+    $("#texto").children("p").on("mouseenter",textura);
+    $("#texto").children("p").on("mouseleave",noTextura);
 }
 function annadirDef()
 {
@@ -74,7 +78,8 @@ function quitarDef()
 	}
 }
 
-function annadirLoc(){
+function annadirLoc()
+{
 	let localidad=$("#localidad").val().trim();
 	if (localidad.length > 0) {
 		let lista=$("#localidades");
@@ -96,7 +101,8 @@ function annadirLoc(){
 	}
 }
 
-function annadirCoc() {
+function annadirCoc() 
+{
     let marca = $("#marca").val().trim();
     let modelo = $("#modelo").val().trim();
     let precio = $("#precio").val().trim();
@@ -163,7 +169,8 @@ function quitarCoc()
 	}
 }
 
-function comunidades() {
+function comunidades() 
+{
     let comunidadesYProvincias = [
         ["Andalucia", ["Almería", "Cádiz", "Córdoba", "Granada", "Huelva", "Jaén", "Málaga", "Sevilla"]],
         ["Aragon", ["Huesca", "Teruel", "Zaragoza"]],
@@ -180,7 +187,7 @@ function comunidades() {
         ["Madrid", ["Madrid"]],
         ["Murcia", ["Murcia"]],
         ["Navarra", ["Navarra"]],
-        ["La Rioja", ["La Rioja"]],
+        ["La_rioja", ["La Rioja"]],
         ["Pais_vasco", ["Álava", "Guipúzcoa", "Vizcaya"]],
         ["Ceuta", ["Ceuta"]],
         ["Melilla", ["Melilla"]]
@@ -201,13 +208,14 @@ function comunidades() {
         ["Madrid", ["Madrid, la capital, combina historia, cultura y modernidad, con museos, el Palacio Real y el parque del Retiro."]],
         ["Murcia", ["Murcia es soleada y agrícola, conocida por sus huertas, la catedral de su capital y playas mediterráneas."]],
         ["Navarra", ["Navarra, conocida por los Sanfermines en Pamplona, ofrece paisajes naturales y un importante patrimonio medieval."]],
-        ["La Rioja", ["Famosa por sus vinos, La Rioja es una pequeña región con paisajes de viñedos y bodegas de renombre mundial."]],
+        ["La_rioja", ["Famosa por sus vinos, La Rioja es una pequeña región con paisajes de viñedos y bodegas de renombre mundial."]],
         ["Pais_vasco", ["El País Vasco destaca por su gastronomía, el Museo Guggenheim en Bilbao y los paisajes verdes de montaña y mar."]],
         ["Ceuta", ["Ceuta, en el norte de África, es una ciudad multicultural con historia cristiana, árabe y romana."]],
         ["Melilla", ["Melilla, en la costa africana, destaca por su arquitectura modernista y su vibrante mezcla cultural."]]
     ]
-    let todasProvincias = document.getElementById("provincias");
-    let eleccion = document.getElementById("comunidad").value;
+
+    let todasProvincias = $("#provincias");
+    let eleccion = $("#comunidad").val();
     let encontrado = true; 
     let indice = 0;
 
@@ -216,15 +224,48 @@ function comunidades() {
             encontrado = false;
         indice += 1;
     }
-    for (let i = todasProvincias.length-1; i >= 0 ; i--) {
-        todasProvincias.item(i).remove();
-        }
+    for (let i = todasProvincias.length-1; i >= 0 ; i--) 
+        todasProvincias.eq(i).text("");
+    
     indice -= 1;
     comunidadesYProvincias[indice][1].forEach(provincia => {
-        let option=document.createElement("option");
-        option.append(provincia);
-        todasProvincias.appendChild(option);
+        todasProvincias.append(`<option>${provincia}</option>`);
     });
-    let cajaCont = document.getElementById("comentario");
-    cajaCont.textContent = comunidadesDesc[indice][1][0];
+    let cajaCont = $("#comentario");
+    cajaCont.text(comunidadesDesc[indice][1][0]);
 }
+
+function numRandom()
+{
+    return Math.trunc(Math.random() * (255 - 0))
+}
+
+function colores()
+{
+    let color1 = "rgb(" + numRandom() + "," + numRandom() + "," + numRandom()+")";
+    let color2 = "rgb(" + numRandom() + "," + numRandom() + "," + numRandom()+")";
+    let tabla = $("#tabla_comunidades");
+    let padre = tabla.find("tbody");
+    let todos = padre.find("tr");
+    let pares = todos.even();
+    let impares = todos.odd();
+    for (let i = 0; i < pares.length; i++) {
+        pares.eq(i).find("td").eq(0).attr("style","background-color: "+ color1+";");
+        pares.eq(i).find("td").eq(1).attr("style","background-color: "+ color1+";");
+    }
+    for (let i = 0; i < impares.length; i++) {
+        impares.eq(i).find("td").eq(0).attr("style","background-color: "+ color2+";");
+        impares.eq(i).find("td").eq(1).attr("style","background-color: "+ color2+";");
+    }
+}
+function textura()
+{
+    let parrafo = $("#texto>p").index($("#texto > p:hover"));
+    $("#texto>p").eq(parrafo).addClass("textura");
+}
+function noTextura()
+{
+    $("#texto").find("p.textura").removeClass("textura");
+}
+
+

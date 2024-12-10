@@ -1,0 +1,33 @@
+body
+{
+    background-color: rgb(0, 0, 255);
+    color: white;
+}
+
+form.form
+{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: -7px;
+}
+
+div[class^="seccion"]
+{
+    padding: 0vw 10vw 14vw 0vw;
+    border:2px red solid;
+}
+
+form.form input[type="text"],form label{margin: 0.2vw 0vw;}
+form.form input[type="button"]{margin: 0.5vw 0vw;}
+form.form select#provincias{width: 130px;}
+.coches table {width: 100%;}
+.tablaComunidades 
+{
+    width: 100%;
+    margin-top: 10px;
+}
+#texto{margin-top: 10px;}
+
+
+
+

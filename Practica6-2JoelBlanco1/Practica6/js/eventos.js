@@ -134,8 +134,6 @@ function eventoDigit(event)
 {
     let evento = event || window.event;
     let caracter = String.fromCharCode(evento.keyCode);
-    console.log(evento);
-    console.log(caracter);
     if (!/^\d/.test(caracter))
         evento.preventDefault();
 }

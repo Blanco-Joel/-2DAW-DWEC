@@ -250,12 +250,10 @@ function colores()
     let pares = todos.even();
     let impares = todos.odd();
     for (let i = 0; i < pares.length; i++) {
-        pares.eq(i).find("td").eq(0).attr("style","background-color: "+ color1+";");
-        pares.eq(i).find("td").eq(1).attr("style","background-color: "+ color1+";");
+        pares.eq(i).attr("style","background-color: "+ color1+";");
     }
     for (let i = 0; i < impares.length; i++) {
-        impares.eq(i).find("td").eq(0).attr("style","background-color: "+ color2+";");
-        impares.eq(i).find("td").eq(1).attr("style","background-color: "+ color2+";");
+        impares.eq(i).attr("style","background-color: "+ color2+";");
     }
 }
 function textura()

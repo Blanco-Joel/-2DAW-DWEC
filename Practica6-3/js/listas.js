@@ -206,8 +206,8 @@ function comunidades() {
         ["Ceuta", ["Ceuta, en el norte de África, es una ciudad multicultural con historia cristiana, árabe y romana."]],
         ["Melilla", ["Melilla, en la costa africana, destaca por su arquitectura modernista y su vibrante mezcla cultural."]]
     ]
-    let todasProvincias = document.getElementById("provincias");
-    let eleccion = document.getElementById("comunidad").value;
+    let todasProvincias =$("#provincias");
+    let eleccion =$("#comunidad").val();
     let encontrado = true; 
     let indice = 0;
 
@@ -217,14 +217,12 @@ function comunidades() {
         indice += 1;
     }
     for (let i = todasProvincias.length-1; i >= 0 ; i--) {
-        todasProvincias.item(i).remove();
+        todasProvincias.eq(i).remove();
         }
     indice -= 1;
     comunidadesYProvincias[indice][1].forEach(provincia => {
-        let option=document.createElement("option");
-        option.append(provincia);
-        todasProvincias.appendChild(option);
+        todasProvincias.append(`<option>${provincia}</option>`)
     });
-    let cajaCont = document.getElementById("comentario");
-    cajaCont.textContent = comunidadesDesc[indice][1][0];
+    let cajaCont =$("#comentario");
+    cajaCont.text(comunidadesDesc[indice][1][0]);
 }

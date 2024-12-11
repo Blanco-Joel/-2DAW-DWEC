@@ -21,12 +21,20 @@ form.form input[type="text"],form label{margin: 0.2vw 0vw;}
 form.form input[type="button"]{margin: 0.5vw 0vw;}
 form.form select#provincias{width: 130px;}
 .coches table {width: 100%;}
-.tablaComunidades 
+#tabla_comunidades 
 {
     width: 100%;
     margin-top: 10px;
 }
 #texto{margin-top: 10px;}
+
+.textura {
+    font-family: 'Comic Sans MS';
+    font-size: 16px;
+    font-weight: bold;
+    background-color: green;
+    color: white;
+  }
 
 
 
